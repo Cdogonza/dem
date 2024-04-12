@@ -8,18 +8,42 @@ body {
     align-items: center; /* Centra verticalmente */
     background: linear-gradient(to bottom right, #4e6bff, #00b0ff); /* Fondo gradiente azul */
   }
+  h1 {
+    color: #d7d7d7; /* Texto blanco */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    font-size: 2.5em; /* Tamaño de letra */
+    margin-bottom: 20px; /* Espacio inferior */
+  }
   
   /* Estilos para el formulario */
   form {
-    background-color: #fff; /* Fondo blanco */
+    background-color: #8e8d8d; /* Fondo blanco */
     border-radius: 10px; /* Bordes redondeados */
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
     display: flex;
     flex-direction: column; /* Elementos uno debajo del otro */
-    margin-left:25%;
-    margin-right: 25%;
+    margin-left:5%;
+    margin-right:5%;
     margin-top: 30px;
+  }
+  #pronto{
+    background-color: #4e6bff;
+    color: #fff;
+    margin-left:  8px;
+    font-size: 0.8em;
+    padding: 5px 5px; 
+  }
+  #cards{
+    background-color: #8e8d8d; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    display: flex;
+    flex-direction: column; /* Elementos uno debajo del otro */
+    margin-left:5%;
+    margin-right:5%;
+    margin-top: -15px;
   }
   
   /* Estilos para los campos de texto */
@@ -38,7 +62,7 @@ body {
     color: #fff; /* Texto blanco */
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 5px 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
@@ -46,11 +70,11 @@ body {
   button[type="submit"]:hover {
     background-color: #0038ff; /* Azul más oscuro al pasar el ratón */
   }
-  /* input#textoTarea {
+  textarea#textoTarea {
     height: 200px;
-    text-align-all: start ;
+
   
   
-  } */
+  }
   
   
