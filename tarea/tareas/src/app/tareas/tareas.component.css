@@ -1,0 +1,127 @@
+/* Estilos para el cuerpo de la página */
+body {
+    margin: 0;
+    padding: 0;
+    height: 500vh;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    background: linear-gradient(to bottom right, #4e6bff, #00b0ff); /* Fondo gradiente azul */
+  }
+  #logOut{
+    margin-left: 80%;
+    color: #000000;
+    font-size: 0.8em;
+    padding: 5px 5px; 
+  }
+  h1 {
+    color: #adadad; /* Texto blanco */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    font-size: 2.5em; /* Tamaño de letra */
+    margin-bottom: 20px; /* Espacio inferior */
+  }
+  #tabla{
+    width: 50%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: 5%;
+
+    flex-direction: column;
+
+  }
+  mat-card-subtitle{
+    color: #000000;
+    font-size: 0.9em;
+    margin-left: 15px;
+
+  }
+  th{
+
+    padding: 5px 10px;
+    text-align: start;
+    border: 1px solid #999;
+  }
+  td{
+    border: 1px solid #d7d7d7;
+    padding: 5px 10px;
+    text-align: start;
+    border: 1px solid #999;
+    text-wrap: normal;
+
+  }
+  #tarea{
+    padding: 5px 10px;
+    text-align: start;
+    width: 40%;
+    
+  }
+  #nombre{
+    padding: 5px 10px;
+    text-align: start;
+    width: 10%;
+  }
+  #estado{
+    padding: 5px 10px;
+    text-align: start;
+    border: 1px solid #999;
+    background-color: #4e6bff;
+    color: #fff;
+    width: 10%;
+  }
+  
+  /* Estilos para el formulario */
+  form {
+    background-color: #c7c7c77a; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    display: flex;
+    flex-direction: column; /* Elementos uno debajo del otro */
+    margin-left:5%;
+    margin-right:5%;
+    margin-top: 30px;
+  }
+  #pronto{
+    background-color: #4e6bff;
+    color: #fff;
+    margin-left:  8px;
+    font-size: 0.8em;
+    padding: 5px 5px; 
+  }
+
+  
+  /* Estilos para los campos de texto */
+  .mat-form-field {
+    width: 100%;
+    margin-bottom: 20px; /* Espacio entre los campos */
+  
+  }
+  .mat-form-field.mat-form-field-lg {
+    width: 100%;
+    height: 400px; /* Altura deseada para el campo */
+  }
+  /* Estilos para el botón de enviar */
+  button[type="submit"] {
+    background-color: #4e6bff; /* Azul */
+    color: #fff; /* Texto blanco */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0038ff; /* Azul más oscuro al pasar el ratón */
+  }
+  textarea#textoTarea {
+    height: 200px;
+
+  }
+  #cards{
+    border-collapse: collapse;
+    margin-top: 10px;
+    flex-direction: column;
+  }
+  
+  

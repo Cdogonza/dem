@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 50vh;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    width: 100vw;
+  }
+  form {
+
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    display: flex;
+    flex-direction: column; /* Elementos uno debajo del otro */
+
+  }
+  .mat-form-field {
+    width: 100%;
+    margin-bottom: 20px; /* Espacio entre los campos */
+    }
+    .mat-form-field.mat-form-field-lg {
+        width: 100%;
+        height: 400px; /* Altura deseada para el campo */
+      }

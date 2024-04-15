@@ -1,0 +1,69 @@
+body {
+
+    margin-top: 20px;
+    padding: 0;
+    height: 500vh;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    background: linear-gradient(to bottom right, #4e6bff, #00b0ff); /* Fondo gradiente azul */
+  }
+  #eliminar{
+    background-color: #ff4d4d; /* Fondo rojo */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    margin-top: 10px; /* Espacio superior */
+    cursor: pointer; /* Cursor de mano */
+    font-size: 1em; /* Tamaño de letra */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    transition: 0.3s; /* Transición suave */
+    margin-left: 20px;
+  }
+  #resolver{
+    background-color: #00cc66; /* Fondo verde */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    margin-top: 10px; /* Espacio superior */
+    cursor: pointer; /* Cursor de mano */
+    font-size: 1em; /* Tamaño de letra */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    transition: 0.3s; /* Transición suave */
+  }
+  #tareas{
+    background-color: #2617fa8a; /* Fondo amarillo */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    margin-top: 0px; /* Espacio superior */
+    cursor: pointer; /* Cursor de mano */
+    font-size: 1em; /* Tamaño de letra */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    transition: 0.3s; /* Transición suave */
+    margin-left: 20px;
+  }
+  #cards{
+    background-color: #cccccc; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    display: flex;
+    flex-direction: column; /* Elementos uno debajo del otro */
+    margin-left:5%;
+    margin-right:5%;
+    margin-top: 10px;
+  }
+  h1{
+    color: #d7d7d7; /* Texto blanco */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    font-size: 2.9em; /* Tamaño de letra */
+    margin-bottom: 20px; /* Espacio inferior */
+    margin-top: 20px;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    text-align: center;
+  }

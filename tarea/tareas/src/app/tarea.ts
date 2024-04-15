@@ -1,5 +1,6 @@
 export default interface Tarea {
-    id?: string;
+    id: string;
     nombre: string;
     recordatorio: string;
+    estado: string;
 }

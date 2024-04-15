@@ -1,0 +1,51 @@
+<div>
+  <button mat-stroked-button id="logOut" (click)="onclick()">Cerrar sesión</button>
+    <form novalidate [formGroup]="formulario" (ngSubmit)="onSubmit()">
+      
+      <h1>Agregar tarea</h1>
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" formControlName="nombre">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label id="tarea">Tarea</mat-label>
+        <textarea id="textoTarea" matInput type="text" formControlName="recordatorio"></textarea>
+      </mat-form-field>
+      <button mat-raised-button type="submit">Enviar</button>
+      <div id="cards" *ngFor="let item of getTareas">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{item.nombre}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>{{item.recordatorio}}</mat-card-content>
+          <mat-card-subtitle>{{item.estado}}</mat-card-subtitle>
+          
+        </mat-card>
+        <br>
+      </div>
+     
+    </form>
+    <!-- <table id="tabla" mat-table [dataSource]="getTareas" class="mat-elevation-z8">
+
+
+      <ng-container matColumnDef="NOMBRE">
+        <th mat-header-cell *matHeaderCellDef> NOMBRE </th>
+        <td id="nombre" mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      </ng-container>
+    
+
+      <ng-container matColumnDef="TAREA">
+        <th mat-header-cell *matHeaderCellDef> TAREA </th>
+        <td id="tarea" mat-cell *matCellDef="let element"> {{element.recordatorio}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ESTADO">
+        <th id="estado" *matHeaderCellDef> ESTADO </th>
+        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+        
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table> -->
+</div>
