@@ -3,4 +3,5 @@ export default interface Tarea {
     nombre: string;
     recordatorio: string;
     estado: string;
+    user: string;
 }

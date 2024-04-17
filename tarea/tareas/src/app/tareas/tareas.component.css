@@ -68,6 +68,25 @@ body {
     color: #fff;
     width: 10%;
   }
+  #btnFiltrar{
+    background-color: #4e6bff; /* Azul */
+    color: #fff; /* Texto blanco */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #btnTodas{
+    background-color: #4e6bff; /* Azul */
+    color: #fff; /* Texto blanco */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+  }
   
   /* Estilos para el formulario */
   form {
@@ -81,6 +100,68 @@ body {
     margin-right:5%;
     margin-top: 30px;
   }
+  #cards{
+    
+    border-collapse: collapse;
+    margin-top: 5px;
+    flex-direction: column;
+    margin-left:5%;
+    margin-right:5%;
+
+  }
+  #divBar{
+    display: flex;
+    flex-direction: row;
+    border-collapse: collapse;
+    margin-left:5%;
+    margin-right:5%;
+    margin-top: 5px;
+        
+  }
+  #btnFormularios1{
+    
+    background-color:  #4e6bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin: 5px 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #btnFormularios2{
+    
+    background-color:  #4e6bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin: 5px 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #btnFormularios3{
+    
+    background-color:  #4e6bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin: 5px 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #estadoRojo{
+    background-color: red;
+  }
+  #estadoVerde{
+    background-color: green;
+  }
+  #cardinterna{
+    background-color: #e3e2e27a;
+
+  }
+  .material-icons.orange500 { color: #000000; background-color: #e3e2e27a; }
   #pronto{
     background-color: #4e6bff;
     color: #fff;
@@ -118,10 +199,6 @@ body {
     height: 200px;
 
   }
-  #cards{
-    border-collapse: collapse;
-    margin-top: 10px;
-    flex-direction: column;
-  }
+  
   
   

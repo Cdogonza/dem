@@ -8,7 +8,11 @@ import { TareasService } from '../services/tareas.service';
 import { NgFor,NgIf } from '@angular/common';
 import Tarea from '../tarea';
 import { UserService } from '../services/user.service';
-import { Router } from '@angular/router';
+import {canActivate} from '@angular/fire/auth-guard';
+import {Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
+
 @Component({
   selector: 'app-administrador',
   standalone: true,
@@ -21,7 +25,8 @@ import { Router } from '@angular/router';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    
   ],
 
   templateUrl: './administrador.component.html',
@@ -30,7 +35,9 @@ import { Router } from '@angular/router';
 export class AdministradorComponent {
 
   getTareas: Tarea[] = [];
-  constructor(private tareasService: TareasService, private UserService: UserService, private route: Router) {}
+
+  constructor(private tareasService: TareasService, private UserService: UserService,
+     private route: Router) {}
 
 
   resolverTarea(id: Tarea['id']) {
@@ -58,8 +65,19 @@ export class AdministradorComponent {
       this.getTareas = data;
     });
 
+
   }
 
+  // canActivate(
+  //   route: ActivatedRouteSnapshot,
+  //   state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    
+  //   if (this.authService.isAdmin()) {
+  //     return true; // Permite el acceso si el usuario es un administrador
+  //   } else {
+  //     return this.route.createUrlTree(['/not-authorized']); // Redirige a una página de no autorizado si el usuario no es un administrador
+  //   }
+  // }
 
   // mostrar mensaje en el caso que no haya tareas pendientes
    

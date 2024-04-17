@@ -15,8 +15,8 @@ export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'administrador', component: AdministradorComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))},
     {path: '**', redirectTo: 'login', pathMatch: 'full'},
-    //, canActivate: [redirectUnauthorizedTo(['login'])]
 
 ];
+
 
 

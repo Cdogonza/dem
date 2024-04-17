@@ -10,14 +10,14 @@ import Tarea from '../tarea';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import {MatTableModule} from '@angular/material/table';
-
+import {MatIconModule} from '@angular/material/icon';
 
 
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
+  imports: [MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
 })
@@ -25,27 +25,29 @@ export class TareasComponent {
 
 displayedColumns: string[] = ['NOMBRE', 'TAREA', 'ESTADO'];
   
-estado: boolean = false;
+EditarTarea: boolean;
   formulario: FormGroup;
   title = 'tareas';
   
-
+idTareaEdicion = '';
   name = '';
   tarea = '';
-    getTareas: Tarea[] = []; 
+  getTareas: Tarea[] = []; 
 
    
-  constructor(private tareasService: TareasService, private UserService: UserService, private route: Router) { 
+  constructor(private tareasService: TareasService, private userService: UserService, private route: Router) { 
     this.formulario = new FormGroup({
       nombre: new FormControl(),
       recordatorio: new FormControl()
     });
+    this.EditarTarea = false;
 
   }
  
 
-  onSubmit() {
+  AgregarTarea() {
     
+
     const tarea = this.formulario?.value;
     if (!tarea.nombre || !tarea.recordatorio) {
       alert('Debes completar todos los campos');
@@ -55,7 +57,8 @@ estado: boolean = false;
       id: '',
       nombre: tarea.nombre,
       recordatorio: tarea.recordatorio,
-      estado: 'pendiente'
+      estado: 'pendiente',
+      user: this.name
     }
     this.tareasService.addTarea(tareaFinal).then(() => {
   
@@ -69,15 +72,31 @@ estado: boolean = false;
   }
   ngOnInit(): void {
 
-    this.tareasService.getData().subscribe((data) => {
+    this.todasLasTareas();
+    this.obtenerUsuarios();
+        
+  }
+  obtenerUsuarios(){
+    this.name = this.userService.getUser()||'';
+  }
+    
+
+  // mostrar tarea del usuario
+  filterByUser() {
+    this.tareasService.filterByUser(this.name).subscribe((data) => {
       this.getTareas = data;
-      
     });
   }
-
-
-  // id: Tarea['id']
+  todasLasTareas() {
+    this.tareasService.getData().subscribe((data) => {
+      this.getTareas = data;
+    });
+  }
   
+  btnCancelar(){
+    this.EditarTarea = false;
+    this.limpiar();
+  }
   limpiar() {
     this.formulario?.reset();
   }
@@ -87,11 +106,36 @@ estado: boolean = false;
 
 
   onclick(){ 
-    this.UserService.logout()
+    this.userService.logout()
     .then(() => {
       this.route.navigate(['login']);
     })
     .catch((error) => 
       console.log(error));
+    }
+
+    editarTarea(id: Tarea['id']) {
+      if(this.name === this.getTareas.find(tarea => tarea.id === id)?.user){
+      this.formulario.setControl('nombre', new FormControl(this.getTareas.find(tarea => tarea.id === id)?.nombre));
+      this.formulario.setControl('recordatorio', new FormControl(this.getTareas.find(tarea => tarea.id === id)?.recordatorio));
+      this.EditarTarea = true;
+      this.idTareaEdicion = id;
+      }else{
+        alert('No puedes editar esta tarea');
+      }
+      
+    }
+    confirmarEdicionTarea() {
+      
+      const tarea = this.formulario?.value;
+      if (!tarea || !tarea.nombre || !tarea.recordatorio) {
+        alert('Debes completar todos los campos');
+        return;
+      }
+      this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio).then(() => {
+        this.todasLasTareas();
+        this.limpiar();
+        this.EditarTarea = false;
+      });
     }
 }

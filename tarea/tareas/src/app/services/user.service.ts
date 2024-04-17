@@ -30,5 +30,12 @@ export class UserService {
     this.router.navigate(['administrador']);
   } 
 
+  //obtener el usuario logueado
+  getUser(){
+    return this.auth.currentUser?.email;
+  }
+
+
+
   
 }
