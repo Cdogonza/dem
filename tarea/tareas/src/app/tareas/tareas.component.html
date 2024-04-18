@@ -3,10 +3,8 @@
     <form novalidate [formGroup]="formulario" >
       
       <h1 name="arriba" >Agregar tarea</h1>
-      <mat-form-field>
-        <mat-label>Nombre</mat-label>
-        <input matInput type="text" formControlName="nombre">
-      </mat-form-field>
+      <mat-form-field id="nombreDesactivado">
+       <input id="inputDesactivado" matInput type="text"  readonly formControlName="nombre">{{nombreUser}}</mat-form-field>
       <mat-form-field>
         <mat-label id="tarea">Tarea</mat-label>
         <textarea id="textoTarea" matInput type="text" formControlName="recordatorio"></textarea>

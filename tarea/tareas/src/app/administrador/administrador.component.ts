@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
 import {canActivate} from '@angular/fire/auth-guard';
 import {Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -34,10 +35,14 @@ import { Observable } from 'rxjs';
 })
 export class AdministradorComponent {
 
+  btnResolver:boolean = true;
   getTareas: Tarea[] = [];
-
+  nombreUser='';
   constructor(private tareasService: TareasService, private UserService: UserService,
-     private route: Router) {}
+     private route: Router,private rroute: ActivatedRoute) {
+
+      this.nombreUser = sessionStorage.getItem('nombre')||'';
+     }
 
 
   resolverTarea(id: Tarea['id']) {
@@ -60,13 +65,22 @@ export class AdministradorComponent {
   }
 
   ngOnInit(): void {
-
-    this.tareasService.filterBy('pendiente').subscribe((data) => {
-      this.getTareas = data;
-    });
-
-
+    // this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
+    this.nombreUser = sessionStorage.getItem('nombre')||'';
+    this.verTareasPendientes();
   }
+  verTareasCompletas(){
+    this.btnResolver = true;
+  this.tareasService.filterByCompletas('completado').subscribe((data) => {
+    this.getTareas = data;
+  });
+}
+verTareasPendientes(){
+  this.btnResolver = false;
+  this.tareasService.filterBy('pendiente').subscribe((data) => {
+    this.getTareas = data;
+  });
+}
 
   // canActivate(
   //   route: ActivatedRouteSnapshot,

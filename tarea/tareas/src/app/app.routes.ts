@@ -10,10 +10,10 @@ export const routes: Routes = [
 
     // {path: '', redirectTo: 'login', pathMatch: 'full'},
     
-    {path: 'tareas', component: TareasComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))}, 
+    {path: 'tareas/:user', component: TareasComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))}, 
     {path: 'register', component: RegisterComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'administrador', component: AdministradorComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))},
+    {path: 'administrador/:user', component: AdministradorComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))},
     {path: '**', redirectTo: 'login', pathMatch: 'full'},
 
 ];

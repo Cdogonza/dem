@@ -19,6 +19,7 @@ export class LoginComponent {
 
   form: FormGroup;
   error: string = 'Algo Salio mal';
+  usuario: string = '';
 
   constructor(
     private UserService: UserService
@@ -32,16 +33,20 @@ export class LoginComponent {
 
   onSubmit() {
     
-    const { email, password } = this.form.value;
-    
-    this.UserService.login(email)
+    const email = this.form.value;
+    const emailCompleto = email.email + '@dnsffaa.gub.uy';
+    this.UserService.login(emailCompleto, email.email)
       .then(() => {
-        this.limpiar();
-        if (email === 'gpaz@dnsffaa.gub.uy' || email === 'eclara@dnsffaa.gub.uy') {
-          this.UserService.goToAdministrador();
+        
+        if (emailCompleto === 'gpaz@dnsffaa.gub.uy' || emailCompleto === 'eclara@dnsffaa.gub.uy') {
+          this.UserService.goToAdministrador(email.email);
+          sessionStorage.setItem('nombre', email.email);
           return;
-        }
-        this.goToTareas();
+        }else{
+        this.goToTareas(email.email);
+        
+        this.limpiar();
+      }
       })
       .catch((error) => {
         console.log(error);
@@ -51,8 +56,8 @@ export class LoginComponent {
   limpiar() {
     this.form?.reset();
   }
-  goToTareas() {
-    this.UserService.goToTareas();
+  goToTareas(user:string) {
+    this.UserService.goToTareas(user);
   }
 
 }

@@ -10,9 +10,11 @@ import {UserService} from './user.service';
 })
 export class TareasService {
 
+  
   constructor(private firestore: Firestore, private userService: UserService) { 
 
   }
+
 
 
   addTarea(tarea: Tarea) {
@@ -29,6 +31,11 @@ return collectionData(ref, {idField: 'id'}) as Observable<Tarea[]>;
  
 // mostrar tarea si esta pendiente
  filterBy(categoriaToFilter: string) {
+  const ref = collection(this.firestore, 'tareas');
+  return collectionData(query(ref, where('estado', '==', categoriaToFilter)), {idField: 'id'}) as Observable<Tarea[]>;
+}
+// mostrar tarea si esta pendiente
+filterByCompletas(categoriaToFilter: string) {
   const ref = collection(this.firestore, 'tareas');
   return collectionData(query(ref, where('estado', '==', categoriaToFilter)), {idField: 'id'}) as Observable<Tarea[]>;
 }

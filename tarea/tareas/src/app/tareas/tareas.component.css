@@ -35,6 +35,13 @@ body {
     margin-left: 15px;
 
   }
+  
+ #nombreDesactivado{
+    color: #000000;
+    font-size: 1.9em;
+    height: auto;
+  }
+
   th{
 
     padding: 5px 10px;

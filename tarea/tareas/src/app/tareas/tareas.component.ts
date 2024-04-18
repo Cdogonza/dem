@@ -11,6 +11,8 @@ import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import { ActivatedRoute } from '@angular/router';
+
 
 
 
@@ -31,31 +33,34 @@ EditarTarea: boolean;
   
 idTareaEdicion = '';
   name = '';
+  nombreUser='';
   tarea = '';
   getTareas: Tarea[] = []; 
-
+;
+  
    
-  constructor(private tareasService: TareasService, private userService: UserService, private route: Router) { 
+  constructor(private rroute: ActivatedRoute,private tareasService: TareasService, private userService: UserService, private route: Router) { 
     this.formulario = new FormGroup({
       nombre: new FormControl(),
       recordatorio: new FormControl()
     });
     this.EditarTarea = false;
-
+  
+    this.nombreUser = sessionStorage.getItem('nombre')||'';
+    
   }
  
 
   AgregarTarea() {
     
-
     const tarea = this.formulario?.value;
-    if (!tarea.nombre || !tarea.recordatorio) {
+    if (!tarea.recordatorio) {
       alert('Debes completar todos los campos');
       return;
     }
     const tareaFinal:Tarea = {
       id: '',
-      nombre: tarea.nombre,
+      nombre: this.nombreUser,
       recordatorio: tarea.recordatorio,
       estado: 'pendiente',
       user: this.name
@@ -74,10 +79,18 @@ idTareaEdicion = '';
 
     this.todasLasTareas();
     this.obtenerUsuarios();
+    this.obtenerNombre();
+    this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
+    this.nombreUser = sessionStorage.getItem('nombre')?? '';
+
         
   }
   obtenerUsuarios(){
     this.name = this.userService.getUser()||'';
+  }
+  obtenerNombre(){
+    this.nombreUser = this.userService.getUserName();
+    sessionStorage.setItem('nombre', this.nombreUser);
   }
     
 
@@ -102,6 +115,7 @@ idTareaEdicion = '';
   }
   alerta(){
     alert("Tarea añadida");
+
   }
 
 
@@ -116,20 +130,19 @@ idTareaEdicion = '';
 
     editarTarea(id: Tarea['id']) {
       if(this.name === this.getTareas.find(tarea => tarea.id === id)?.user){
-      this.formulario.setControl('nombre', new FormControl(this.getTareas.find(tarea => tarea.id === id)?.nombre));
       this.formulario.setControl('recordatorio', new FormControl(this.getTareas.find(tarea => tarea.id === id)?.recordatorio));
       this.EditarTarea = true;
       this.idTareaEdicion = id;
       }else{
-        alert('No puedes editar esta tarea');
+        alert('Solo puede editar tus tareas');
       }
       
     }
     confirmarEdicionTarea() {
       
       const tarea = this.formulario?.value;
-      if (!tarea || !tarea.nombre || !tarea.recordatorio) {
-        alert('Debes completar todos los campos');
+      if (!tarea || !tarea.recordatorio) {
+        alert('Debes completar el campo tarea');
         return;
       }
       this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio).then(() => {
