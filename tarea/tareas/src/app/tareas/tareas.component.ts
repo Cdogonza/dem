@@ -36,8 +36,8 @@ idTareaEdicion = '';
   nombreUser='';
   tarea = '';
   getTareas: Tarea[] = []; 
-;
-  
+  btntareas= 'Tareas Completadas';
+  btntareasToggle= false;
    
   constructor(private rroute: ActivatedRoute,private tareasService: TareasService, private userService: UserService, private route: Router) { 
     this.formulario = new FormGroup({
@@ -68,23 +68,49 @@ idTareaEdicion = '';
     this.tareasService.addTarea(tareaFinal).then(() => {
   
       this.limpiar();
-      this.tareasService.getData().subscribe((data) => {
+      this.tareasService.filterByUser(this.name).subscribe((data) => {
         this.getTareas = data;
-        
-      });
+        });
       this.alerta();
     });
   }
   ngOnInit(): void {
-
-    this.todasLasTareas();
+   
     this.obtenerUsuarios();
     this.obtenerNombre();
     this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
     this.nombreUser = sessionStorage.getItem('nombre')?? '';
+    this.todasLasTareas();
+    // this.tareasService.filterByUser(this.name).subscribe((data) => {
+    // this.getTareas = data;
+    // });
 
         
   }
+vistaTareas(estado:boolean){
+  if(estado){
+    this.btntareas = 'Tareas Pendientes';
+    this.tareasPendientes();
+    this.btntareasToggle = false;
+  }else{
+    this.btntareas = 'Tareas Completadas';
+    this.tareasCompletadas();
+    this.btntareasToggle = true;
+  }}
+
+  tareasPendientes(){
+    this.tareasService.filterByCompletasMias('pendiente', this.name).subscribe((data) => {
+      this.getTareas = data;
+    });
+  }
+  tareasCompletadas(){
+
+  this.tareasService.filterByCompletasMias('completado', this.name).subscribe((data) => {
+    this.getTareas = data;
+  });
+}
+
+
   obtenerUsuarios(){
     this.name = this.userService.getUser()||'';
   }
@@ -101,7 +127,7 @@ idTareaEdicion = '';
     });
   }
   todasLasTareas() {
-    this.tareasService.getData().subscribe((data) => {
+    this.tareasService.getTodasLasTareas(this.name).subscribe((data) => {
       this.getTareas = data;
     });
   }
@@ -146,7 +172,7 @@ idTareaEdicion = '';
         return;
       }
       this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio).then(() => {
-        this.todasLasTareas();
+        this.filterByUser();
         this.limpiar();
         this.EditarTarea = false;
       });

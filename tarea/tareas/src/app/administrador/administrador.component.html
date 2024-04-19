@@ -1,8 +1,7 @@
 
 <h1>Administrador</h1>
 <a id="tareas" [routerLink]="['/tareas', nombreUser]" mat-button routerLinkActive="active">Tareas</a>
-<a id="tareas" mat-button (click)="verTareasCompletas()">Tareas Completas</a>
-<a id="tareas" mat-button (click)="verTareasPendientes()">Tareas Pendientes</a>
+<button id="btnFiltrar" mat-button (click)="vistaTareas(btntareasToggle)">{{btntareas}}</button>
 
 <div id="cards" *ngFor="let item of getTareas">
     <mat-card>

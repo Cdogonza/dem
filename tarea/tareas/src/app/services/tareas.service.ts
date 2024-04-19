@@ -39,6 +39,15 @@ filterByCompletas(categoriaToFilter: string) {
   const ref = collection(this.firestore, 'tareas');
   return collectionData(query(ref, where('estado', '==', categoriaToFilter)), {idField: 'id'}) as Observable<Tarea[]>;
 }
+filterByCompletasMias(categoriaToFilter: string, user: string) {  
+  const ref = collection(this.firestore, 'tareas');
+  return collectionData(query(ref, where('estado', '==', categoriaToFilter), where('user','==',user)), {idField: 'id'}) as Observable<Tarea[]>;
+}
+
+getTodasLasTareas(user: string) {
+  const ref = collection(this.firestore, 'tareas');
+  return collectionData(query(ref, where('user','==',user)), {idField: 'id'}) as Observable<Tarea[]>;
+}
 
 //borrar tarea
 deleteTarea(id: Tarea['id']) {

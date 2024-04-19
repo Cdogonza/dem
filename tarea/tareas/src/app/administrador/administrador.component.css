@@ -46,6 +46,19 @@ body {
     transition: 0.3s; /* Transición suave */
     margin-left: 20px;
   }
+  #btnFiltrar{
+    background-color: #2617fa8a; /* Fondo amarillo */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    margin-top: 0px; /* Espacio superior */
+    cursor: pointer; /* Cursor de mano */
+    font-size: 1em; /* Tamaño de letra */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    transition: 0.3s; /* Transición suave */
+    margin-left: 20px;
+  }
   #cards{
     background-color: #cccccc; /* Fondo blanco */
     border-radius: 10px; /* Bordes redondeados */

@@ -38,12 +38,25 @@ export class AdministradorComponent {
   btnResolver:boolean = true;
   getTareas: Tarea[] = [];
   nombreUser='';
+  btntareas= 'Tareas Completadas';
+  btntareasToggle= false;
+
   constructor(private tareasService: TareasService, private UserService: UserService,
      private route: Router,private rroute: ActivatedRoute) {
 
       this.nombreUser = sessionStorage.getItem('nombre')||'';
      }
 
+vistaTareas(estado:boolean){
+  if(estado){
+    this.btntareas = 'Tareas Completadas';
+    this.verTareasPendientes();
+    this.btntareasToggle = false;
+  }else{
+    this.btntareas = 'Tareas Pendientes';
+    this.verTareasCompletas();
+    this.btntareasToggle = true;
+  }}
 
   resolverTarea(id: Tarea['id']) {
     this.tareasService.updateTarea(id, 'completado').then(() => {

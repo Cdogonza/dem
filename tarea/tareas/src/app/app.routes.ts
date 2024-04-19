@@ -5,6 +5,7 @@ import { TareasComponent } from './tareas/tareas.component';
 import {redirectUnauthorizedTo} from '@angular/fire/auth-guard';
 import {canActivate} from '@angular/fire/auth-guard';
 import { AdministradorComponent } from './administrador/administrador.component';
+import { PassComponent } from './pass/pass.component';
 
 export const routes: Routes = [
 
@@ -14,6 +15,7 @@ export const routes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'login', component: LoginComponent},
     {path: 'administrador/:user', component: AdministradorComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))},
+    {path: 'pass', component: PassComponent},
     {path: '**', redirectTo: 'login', pathMatch: 'full'},
 
 ];

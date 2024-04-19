@@ -34,10 +34,11 @@ export class LoginComponent {
   onSubmit() {
     
     const email = this.form.value;
+    const pass = email.password;
     const emailCompleto = email.email + '@dnsffaa.gub.uy';
-    this.UserService.login(emailCompleto, email.email)
+    this.UserService.login(emailCompleto,pass, email.email)
       .then(() => {
-        
+
         if (emailCompleto === 'gpaz@dnsffaa.gub.uy' || emailCompleto === 'eclara@dnsffaa.gub.uy') {
           this.UserService.goToAdministrador(email.email);
           sessionStorage.setItem('nombre', email.email);
