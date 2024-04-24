@@ -177,4 +177,10 @@ vistaTareas(estado:boolean){
         this.EditarTarea = false;
       });
     }
+    camboPas(){
+      this.route.navigate(['/pass']);
+    } 
+    adminGo(){
+      this.route.navigate(['/administrador', this.nombreUser]);
+    } 
 }

@@ -13,7 +13,7 @@ export const routes: Routes = [
     // {path: '', redirectTo: 'login', pathMatch: 'full'},
     
     {path: 'tareas/:user', component: TareasComponent}, 
-    {path: 'register', component: RegisterComponent, canActivate:[authGuard]},
+    {path: 'register/:user', component: RegisterComponent, canActivate:[authGuard]},
     {path: 'login', component: LoginComponent},
     {path: 'administrador/:user', component: AdministradorComponent, canActivate:[authGuard]},
     {path: 'pass', component: PassComponent},

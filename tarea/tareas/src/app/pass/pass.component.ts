@@ -27,6 +27,9 @@ export class PassComponent {
 
   cambiarPass() {
     this.UserService.sendPasswordResetEmail(this.form.value.password);
+    // ir a login
+    this.UserService.logout();
+    this.UserService.goToLogin();
       
   }
 
