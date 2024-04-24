@@ -38,16 +38,11 @@ export class LoginComponent {
     const emailCompleto = email.email + '@dnsffaa.gub.uy';
     this.UserService.login(emailCompleto,pass, email.email)
       .then(() => {
-
-        if (emailCompleto === 'gpaz@dnsffaa.gub.uy' || emailCompleto === 'eclara@dnsffaa.gub.uy') {
-          this.UserService.goToAdministrador(email.email);
-          sessionStorage.setItem('nombre', email.email);
-          return;
-        }else{
+        
         this.goToTareas(email.email);
         
         this.limpiar();
-      }
+      
       })
       .catch((error) => {
         console.log(error);
