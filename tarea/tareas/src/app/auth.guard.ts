@@ -4,7 +4,7 @@ import { AuthguardService } from './services/authguard.service';
 import { UserService } from './services/user.service';
 
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = async (route, state) => {
 
 const authservice = inject(AuthguardService)
 const userService = inject(UserService);
@@ -23,7 +23,7 @@ const nombreUser = sessionStorage.getItem('nombre')||'';
   if(authservice.isAdmin()){
     return true;
   }else{
-    console.log(userService.getUserName() );
+  
     alert('No tiene permisos para acceder a esta pagina');
     // const urltree = router.createUrlTree(['/login']);
     return false;
