@@ -26,10 +26,10 @@ export class PassComponent {
   }
 
   cambiarPass() {
-    this.UserService.sendPasswordResetEmail(this.form.value.password);
+    const emailCompleto = this.form.value.password + '@dnsffaa.gub.uy';
+    this.UserService.sendPasswordResetEmail(emailCompleto);
     // ir a login
-    this.UserService.logout();
-    this.UserService.goToLogin();
+    this.UserService.goToTareas(this.UserService.getUserName());
       
   }
 

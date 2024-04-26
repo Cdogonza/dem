@@ -2,9 +2,14 @@
   <!-- <a [routerLink]="'/pass'">Cambiar Password</a> -->
 </div>
 <div>
-  <button mat-stroked-button id="logOut" (click)="onclick()">Cerrar sesión</button>
-  <button mat-stroked-button id="logOut" (click)="camboPas()">Cambiar Password</button>
-  <button mat-stroked-button id="logOut" (click)="adminGo()">Administrador</button>
+  <mat-toolbar color="primary">
+    <button mat-raised-button id="logOut" (click)="adminGo()">Administrador</button>
+    <button mat-raised-button id="logOut" (click)="camboPas()">Cambiar Password</button>
+    <button mat-raised-button id="logOut" (click)="onclick()">Cerrar sesión</button>
+  </mat-toolbar>
+  
+ 
+  
     <form novalidate [formGroup]="formulario" >
       
       <h1 name="arriba" >Agregar tarea</h1>
@@ -38,6 +43,9 @@
         <mat-card-subtitle>{{item.estado}}</mat-card-subtitle>
         <button href="#arriba" mat-icon-button (click)="editarTarea(item.id)" >
           <span class="material-icons md-15 orange500 ">edit</span>
+        </button>
+        <button href="#arriba" mat-icon-button (click)="delete(item.id)" >
+          <span class="material-icons md-15 orange500 ">delete</span>
         </button>
       </div>
       

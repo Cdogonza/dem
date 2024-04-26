@@ -14,7 +14,7 @@
       <mat-card-actions>
         <button *ngIf="!btnResolver" id="resolver" mat-raised-button (click)="resolverTarea(item.id)" >Resolver</button>
         <button id="eliminar"mat-raised-button (click)="delete(item.id)" >Eliminar</button>
-        
+        <button id="comentar"mat-raised-button (click)="openDialog()" >Comentar</button>
       </mat-card-actions>
     </mat-card>
     <br>

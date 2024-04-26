@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 
@@ -19,13 +20,12 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
+  imports: [MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
 })
 export class TareasComponent {
 
-displayedColumns: string[] = ['NOMBRE', 'TAREA', 'ESTADO'];
   
 EditarTarea: boolean;
   formulario: FormGroup;
@@ -49,7 +49,16 @@ idTareaEdicion = '';
     this.nombreUser = sessionStorage.getItem('nombre')||'';
     
   }
- 
+
+  delete(id: Tarea['id']) {
+    this.tareasService.deleteTarea(id).then(() => {
+      alert('Tarea Eliminada');
+      this.tareasService.filterByUser(this.name).subscribe((data) => {
+        this.getTareas = data;
+        });
+    }
+    );
+  }
 
   AgregarTarea() {
     
@@ -66,12 +75,12 @@ idTareaEdicion = '';
       user: this.name
     }
     this.tareasService.addTarea(tareaFinal).then(() => {
-  
+      this.alerta();
       this.limpiar();
       this.tareasService.filterByUser(this.name).subscribe((data) => {
         this.getTareas = data;
         });
-      this.alerta();
+      
     });
   }
   ngOnInit(): void {
@@ -79,7 +88,8 @@ idTareaEdicion = '';
     this.obtenerUsuarios();
     this.obtenerNombre();
     this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
-    this.nombreUser = sessionStorage.getItem('nombre')?? '';
+    localStorage.setItem('nombre', this.nombreUser);
+    //this.nombreUser = sessionStorage.getItem('nombre')?? '';
     this.todasLasTareas();
     // this.tareasService.filterByUser(this.name).subscribe((data) => {
     // this.getTareas = data;

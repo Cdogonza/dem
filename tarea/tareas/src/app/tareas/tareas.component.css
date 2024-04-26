@@ -9,25 +9,21 @@ body {
     background: linear-gradient(to bottom right, #4e6bff, #00b0ff); /* Fondo gradiente azul */
   }
   #logOut{
-    margin-left: 80%;
-    color: #000000;
-    font-size: 0.8em;
-    padding: 5px 5px; 
+    font-size: 0.6em;
+    background-color: #3a5bff75; /* Azul */
+    margin: 5px;
+    margin-top: 0%; 
+    color: #fff;
+  }
+  #logOut:hover{
+    background-color: #4e6bff;
+    color: #fff;
   }
   h1 {
     color: #adadad; /* Texto blanco */
     font-family: Arial, sans-serif; /* Tipo de letra */
     font-size: 2.5em; /* Tamaño de letra */
     margin-bottom: 20px; /* Espacio inferior */
-  }
-  #tabla{
-    width: 50%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    margin-left: 5%;
-
-    flex-direction: column;
-
   }
   mat-card-subtitle{
     color: #000000;
@@ -42,20 +38,7 @@ body {
     height: auto;
   }
 
-  th{
 
-    padding: 5px 10px;
-    text-align: start;
-    border: 1px solid #999;
-  }
-  td{
-    border: 1px solid #d7d7d7;
-    padding: 5px 10px;
-    text-align: start;
-    border: 1px solid #999;
-    text-wrap: normal;
-
-  }
   #tarea{
     padding: 5px 10px;
     text-align: start;
@@ -200,7 +183,7 @@ body {
   }
   
   button[type="submit"]:hover {
-    background-color: #0038ff; /* Azul más oscuro al pasar el ratón */
+    background-color: #0038ff; /* Azul más ofscuro al pasar el ratón */
   }
   textarea#textoTarea {
     height: 200px;

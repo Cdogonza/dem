@@ -14,8 +14,8 @@ export const routes: Routes = [
     
     {path: 'tareas/:user', component: TareasComponent}, 
     {path: 'register/:user', component: RegisterComponent, canActivate:[authGuard]},
-    {path: 'login', component: LoginComponent},
     {path: 'administrador/:user', component: AdministradorComponent, canActivate:[authGuard]},
+    {path: 'login', component: LoginComponent},
     {path: 'pass', component: PassComponent},
     {path: '**', redirectTo: 'login', pathMatch: 'full'},
 

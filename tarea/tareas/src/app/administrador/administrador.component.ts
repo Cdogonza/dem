@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,8 +12,14 @@ import {canActivate} from '@angular/fire/auth-guard';
 import {Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-
-
+import { BrowserModule } from '@angular/platform-browser';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatDialogTitle} from '@angular/material/dialog';
+import {MatDialogContent} from '@angular/material/dialog';
+import {MatDialogActions} from '@angular/material/dialog';
+import {MatDialogClose} from '@angular/material/dialog';
 @Component({
   selector: 'app-administrador',
   standalone: true,
@@ -27,13 +33,20 @@ import { ActivatedRoute } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
-    
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
   ],
 
   templateUrl: './administrador.component.html',
   styleUrl: './administrador.component.css'
 })
 export class AdministradorComponent {
+openDialog() {
+throw new Error('Method not implemented.');
+}
 
   btnResolver:boolean = true;
   getTareas: Tarea[] = [];
@@ -42,7 +55,7 @@ export class AdministradorComponent {
   btntareasToggle= false;
 
   constructor(private tareasService: TareasService, private UserService: UserService,
-     private route: Router,private rroute: ActivatedRoute) {
+     private route: Router,private rroute: ActivatedRoute,public dialog: MatDialog)  {
 
       this.nombreUser = sessionStorage.getItem('nombre')||'';
      }
@@ -95,17 +108,4 @@ verTareasPendientes(){
   });
 }
 
-  // canActivate(
-  //   route: ActivatedRouteSnapshot,
-  //   state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
-  //   if (this.authService.isAdmin()) {
-  //     return true; // Permite el acceso si el usuario es un administrador
-  //   } else {
-  //     return this.route.createUrlTree(['/not-authorized']); // Redirige a una página de no autorizado si el usuario no es un administrador
-  //   }
-  // }
-
-  // mostrar mensaje en el caso que no haya tareas pendientes
-   
 }
