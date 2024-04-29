@@ -123,10 +123,12 @@ editarTarea(id: Tarea['id']) {
 
     let text;
     const tarea = this.getTareas.find((tarea) => tarea.id === id);
-    let person = prompt("Ingresa el comentario:", tarea?.recordatorio ?? '');
+    text = tarea?.recordatorio;
+    let person = prompt("Ingresa el comentario:", "COMENTARIO DE "+this.UserService.getUserName().toUpperCase() + ":");
     if (person == null || person == "") {
       text = "User cancelled the prompt.";
     } else {
+      person = text + '\n' + person;
       this.tareasService.editarTarea(id, person).then(() => {
         this.tareasService.filterBy('pendiente').subscribe((data) => {
           this.getTareas = data;

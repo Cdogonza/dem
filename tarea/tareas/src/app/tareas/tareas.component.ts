@@ -28,9 +28,8 @@ export class TareasComponent {
 
   
 EditarTarea: boolean;
-  formulario: FormGroup;
-  title = 'tareas';
-  
+formulario: FormGroup;
+title = 'tareas'; 
 idTareaEdicion = '';
   name = '';
   nombreUser='';
@@ -38,6 +37,7 @@ idTareaEdicion = '';
   getTareas: Tarea[] = []; 
   btntareas= 'Tareas Completadas';
   btntareasToggle= false;
+  estadoTarea:boolean = false;
    
   constructor(private rroute: ActivatedRoute,private tareasService: TareasService, private userService: UserService, private route: Router) { 
     this.formulario = new FormGroup({
@@ -49,6 +49,8 @@ idTareaEdicion = '';
     this.nombreUser = sessionStorage.getItem('nombre')||'';
     
   }
+
+  
 
   delete(id: Tarea['id']) {
     let text;
