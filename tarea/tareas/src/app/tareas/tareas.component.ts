@@ -175,7 +175,7 @@ vistaTareas(estado:boolean){
     }
 
     editarTarea(id: Tarea['id']) {
-      if(this.name === this.getTareas.find(tarea => tarea.id === id)?.user){
+      if(this.name === this.getTareas.find(tarea => tarea.id === id)?.user || this.name === 'gpaz' || this.name === 'eclara'){
       this.formulario.setControl('recordatorio', new FormControl(this.getTareas.find(tarea => tarea.id === id)?.recordatorio));
       this.EditarTarea = true;
       this.idTareaEdicion = id;

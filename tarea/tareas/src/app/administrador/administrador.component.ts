@@ -53,6 +53,7 @@ throw new Error('Method not implemented.');
   nombreUser='';
   btntareas= 'Tareas Completadas';
   btntareasToggle= false;
+  name = '';
 
   constructor(private tareasService: TareasService, private UserService: UserService,
      private route: Router,private rroute: ActivatedRoute,public dialog: MatDialog)  {
@@ -82,13 +83,23 @@ vistaTareas(estado:boolean){
     );
   }
   delete(id: Tarea['id']) {
+
+    if (confirm("Seguro desea eliminar la tarea?") == true) {
+
     this.tareasService.deleteTarea(id).then(() => {
       this.tareasService.filterBy('pendiente').subscribe((data) => {
         this.getTareas = data;
       });
     }
+
     );
+  }else{
+    alert('Eliminacion cancelada');
+    this.tareasService.filterBy('pendiente').subscribe((data) => {
+      this.getTareas = data;
+    });
   }
+}
 
   ngOnInit(): void {
     // this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
@@ -108,4 +119,29 @@ verTareasPendientes(){
   });
 }
 
+editarTarea(id: Tarea['id']) {
+
+    let text;
+    const tarea = this.getTareas.find((tarea) => tarea.id === id);
+    let person = prompt("Ingresa el comentario:", tarea?.recordatorio ?? '');
+    if (person == null || person == "") {
+      text = "User cancelled the prompt.";
+    } else {
+      this.tareasService.editarTarea(id, person).then(() => {
+        this.tareasService.filterBy('pendiente').subscribe((data) => {
+          this.getTareas = data;
+        }
+
+        );
+
+      alert("Comentario guardado");
+
+    }
+    );
+
+
+ 
+
+  }
+}
 }
