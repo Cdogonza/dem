@@ -51,13 +51,23 @@ idTareaEdicion = '';
   }
 
   delete(id: Tarea['id']) {
-    this.tareasService.deleteTarea(id).then(() => {
-      alert('Tarea Eliminada');
+    let text;
+    if (confirm("Seguro desea eliminar la tarea?") == true) {
+     
+      this.tareasService.deleteTarea(id).then(() => {
+     
+        this.tareasService.filterByUser(this.name).subscribe((data) => {
+          this.getTareas = data;
+          });
+      }
+      );
+    } else {
+      alert('Eliminacion cancelada');
       this.tareasService.filterByUser(this.name).subscribe((data) => {
         this.getTareas = data;
         });
     }
-    );
+    
   }
 
   AgregarTarea() {
