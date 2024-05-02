@@ -28,7 +28,12 @@ export class RegisterComponent {
       password: new FormControl()
     });
   }
-
+  getUser(){
+    const user = this.UserService.getUserName();
+    if (user) {
+      this.UserService.goToTareas(user);
+    }
+  }
   onSubmit() {
     
     const { email, password } = this.form.value;

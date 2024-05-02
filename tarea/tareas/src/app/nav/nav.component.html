@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" >DEM</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a  class="nav-link active" aria-current="page"  [routerLink]="['/tareas', nombreUser]"  routerLinkActive="active">Tareas</a>
+          </li>
+          <li class="nav-item">
+            <a  class="nav-link active"   [routerLink]="['/register', nombreUser]"  routerLinkActive="active">Nuevo Usuario</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/pass']"  routerLinkActive="active">Cambio Password</a>
+          </li> 
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Filtrar Tareas
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <button class="dropdown-item btn-link" (click)="verTareasCompletas()">Completas</button>
+            </li>
+              <li><a class="dropdown-item btn-link" (click)="verTareasPendientes()">Pendientes</a></li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-link "  (click)="onclick()">Cerrar Session</a>
+          </li>        
+        </ul>
+      </div>
+    </div>
+  </nav>

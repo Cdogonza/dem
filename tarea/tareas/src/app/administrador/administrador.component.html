@@ -1,8 +1,5 @@
-
+<app-nav></app-nav>
 <h1>Administrador</h1>
-<a id="tareas" [routerLink]="['/tareas', nombreUser]" mat-button routerLinkActive="active">Tareas</a>
-<button id="btnFiltrar" mat-button (click)="vistaTareas(btntareasToggle)">{{btntareas}}</button>
-<a id="tareas" [routerLink]="['/register', nombreUser]" mat-button routerLinkActive="active">Registro Usuarios</a>
 
 <div id="cards" *ngFor="let item of getTareas">
     <mat-card>

@@ -36,10 +36,10 @@ export class LoginComponent {
     const email = this.form.value;
     const pass = email.password;
     const emailCompleto = email.email + '@dnsffaa.gub.uy';
-    this.UserService.login(emailCompleto,pass, email.email)
+    this.UserService.login(emailCompleto.toLowerCase(),pass, email.email.toLowerCase())
       .then(() => {
         
-        this.goToTareas(email.email);
+        this.goToTareas(email.email.toLowerCase());
         
         this.limpiar();
       
