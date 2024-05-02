@@ -14,13 +14,13 @@ import {MatIconModule} from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
-
+import { NavComponent } from '../nav/nav.component';
 
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [MatSelectModule,MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
+  imports: [NavComponent,MatSelectModule,MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
 })
@@ -183,6 +183,7 @@ vistaTareas(estado:boolean){
       this.formulario.setControl('recordatorio', new FormControl(this.getTareas.find(tarea => tarea.id === id)?.recordatorio));
       this.EditarTarea = true;
       this.idTareaEdicion = id;
+
       }else{
         alert('Solo puede editar tus tareas');
       }
