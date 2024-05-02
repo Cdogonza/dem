@@ -20,10 +20,12 @@ import {MatDialogTitle} from '@angular/material/dialog';
 import {MatDialogContent} from '@angular/material/dialog';
 import {MatDialogActions} from '@angular/material/dialog';
 import {MatDialogClose} from '@angular/material/dialog';
+import {NavComponent} from '../nav/nav.component';
 @Component({
   selector: 'app-administrador',
   standalone: true,
   imports: [
+    NavComponent,
     NgFor,
     NgIf,
     RouterModule,
@@ -104,15 +106,15 @@ vistaTareas(estado:boolean){
   ngOnInit(): void {
     // this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
     this.nombreUser = sessionStorage.getItem('nombre')||'';
-    this.verTareasPendientes();
+   this.verTareasPendientes();
   }
-  verTareasCompletas(){
+  public verTareasCompletas(){
     this.btnResolver = true;
   this.tareasService.filterByCompletas('completado').subscribe((data) => {
     this.getTareas = data;
   });
 }
-verTareasPendientes(){
+public verTareasPendientes(){
   this.btnResolver = false;
   this.tareasService.filterBy('pendiente').subscribe((data) => {
     this.getTareas = data;
