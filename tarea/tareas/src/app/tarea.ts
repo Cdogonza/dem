@@ -4,4 +4,5 @@ export default interface Tarea {
     recordatorio: string;
     estado: string;
     user: string;
+    jefe: string;
 }

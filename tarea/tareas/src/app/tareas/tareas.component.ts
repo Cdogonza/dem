@@ -13,19 +13,20 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
-
+import {MatSelectModule} from '@angular/material/select';
 
 
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
+  imports: [MatSelectModule,MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
 })
 export class TareasComponent {
 
+  selected = 'Cap. Paz';
   
 EditarTarea: boolean;
 formulario: FormGroup;
@@ -84,7 +85,8 @@ idTareaEdicion = '';
       nombre: this.nombreUser,
       recordatorio: tarea.recordatorio,
       estado: 'pendiente',
-      user: this.name
+      user: this.name,
+      jefe: this.selected
     }
     this.tareasService.addTarea(tareaFinal).then(() => {
       this.alerta();

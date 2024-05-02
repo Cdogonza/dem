@@ -15,7 +15,17 @@
       <h1 name="arriba" >Agregar tarea</h1>
       <mat-form-field id="nombreDesactivado">
        <input id="inputDesactivado" matInput type="text" formControlName="nombre">{{nombreUser}}</mat-form-field>
+       <mat-form-field>
+        <mat-label>Para quien es la Tarea</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option value="Cap Paz">Cap Paz</mat-option>
+          <mat-option value="Tte Clara">Tte Clara</mat-option>
+          <mat-option value="Ambos">Ambos</mat-option>
+
+        </mat-select>
+      </mat-form-field>
       <mat-form-field>
+        
         <mat-label id="tarea">Tarea</mat-label>
         <textarea id="textoTarea" matInput type="text" formControlName="recordatorio"></textarea>
       </mat-form-field>
@@ -36,11 +46,11 @@
     <div id="cards" *ngFor="let item of getTareas">
       <mat-card id="cardinterna">
         <mat-card-header>
-          <mat-card-title>{{item.nombre}}</mat-card-title>
+          <mat-card-title>{{item.jefe}}</mat-card-title>
         </mat-card-header>
+        <mat-card-subtitle>{{item.nombre}}</mat-card-subtitle>
         <mat-card-content>{{item.recordatorio}}</mat-card-content>
         <div>
-        <mat-card-subtitle>{{item.estado}}</mat-card-subtitle>
         <mat-card-subtitle>{{item.estado}}</mat-card-subtitle>
 
         <button href="#arriba" mat-icon-button (click)="editarTarea(item.id)" >
