@@ -14,13 +14,13 @@ import {MatIconModule} from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
-import { NavComponent } from '../nav/nav.component';
+import { NavtareasComponent } from '../navtareas/navtareas.component';
 
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [NavComponent,MatSelectModule,MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
+  imports: [NavtareasComponent,MatSelectModule,MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
 })
@@ -122,12 +122,12 @@ vistaTareas(estado:boolean){
     this.btntareasToggle = true;
   }}
 
-  tareasPendientes(){
+  public tareasPendientes(){
     this.tareasService.filterByCompletasMias('pendiente', this.name).subscribe((data) => {
       this.getTareas = data;
     });
   }
-  tareasCompletadas(){
+ public  tareasCompletadas(){
 
   this.tareasService.filterByCompletasMias('completado', this.name).subscribe((data) => {
     this.getTareas = data;
@@ -196,7 +196,7 @@ vistaTareas(estado:boolean){
         alert('Debes completar el campo tarea');
         return;
       }
-      this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio).then(() => {
+      this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio, tarea?.jefe).then(() => {
         this.filterByUser();
         this.limpiar();
         this.EditarTarea = false;

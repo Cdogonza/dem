@@ -1,11 +1,5 @@
-<app-nav></app-nav>
-<div>
-  <mat-toolbar color="primary">
-    <button mat-raised-button id="logOut" (click)="adminGo()">Administrador</button>
-
-    <button mat-raised-button id="logOut" (click)="onclick()">Cerrar sesión</button>
-  </mat-toolbar> 
-  
+<app-navtareas></app-navtareas>
+<div>  
     <form novalidate [formGroup]="formulario" >
       
       <h1 name="arriba" >Agregar tarea</h1>
@@ -13,7 +7,7 @@
        <input id="inputDesactivado" matInput type="text" formControlName="nombre">{{nombreUser}}</mat-form-field>
        <mat-form-field>
         <mat-label>Para quien es la Tarea</mat-label>
-        <mat-select [(value)]="selected">
+        <mat-select [(value)]="selected" formControlName="jefe">
           <mat-option value="Cap Paz">Cap Paz</mat-option>
           <mat-option value="Tte Clara">Tte Clara</mat-option>
           <mat-option value="Ambos">Ambos</mat-option>
