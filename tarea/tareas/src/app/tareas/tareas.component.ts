@@ -91,9 +91,7 @@ idTareaEdicion = '';
     this.tareasService.addTarea(tareaFinal).then(() => {
       this.alerta();
       this.limpiar();
-      this.tareasService.filterByUser(this.name).subscribe((data) => {
-        this.getTareas = data;
-        });
+      this.tareasPendientes();
       
     });
   }
@@ -162,6 +160,7 @@ vistaTareas(estado:boolean){
   }
   limpiar() {
     this.formulario?.reset();
+    
   }
   alerta(){
     alert("Tarea añadida");
@@ -196,8 +195,8 @@ vistaTareas(estado:boolean){
         alert('Debes completar el campo tarea');
         return;
       }
-      this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio, tarea?.jefe).then(() => {
-        this.filterByUser();
+      this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio).then(() => {
+        this.todasLasTareas();
         this.limpiar();
         this.EditarTarea = false;
       });

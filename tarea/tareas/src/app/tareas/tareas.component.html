@@ -27,12 +27,6 @@
       
      
     </form>
-<div id="divBar">
-<!-- <button id="btnTodas" mat-stroked-button (click)="todasLasTareas()">Todas las Tareas</button> -->
-<button id="btnTodas" mat-stroked-button (click)="todasLasTareas()">Todas las Tareas</button>
-<button id="btnFiltrar" mat-stroked-button (click)="vistaTareas(btntareasToggle)">{{btntareas}}</button>
-
-</div>
     <div id="cards" *ngFor="let item of getTareas">
       <mat-card id="cardinterna">
         <mat-card-header>

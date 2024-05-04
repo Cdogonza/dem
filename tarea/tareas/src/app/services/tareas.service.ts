@@ -61,10 +61,10 @@ updateTarea(id: Tarea['id'], estado: Tarea['estado']) {
   return updateDoc(ref, {estado});
 
 }
-editarTarea(id: Tarea['id'], recordatorio: string, jefe: string) {
+editarTarea(id: Tarea['id'], recordatorio: string) {
 
   const ref = doc(this.firestore, 'tareas', id);
-return updateDoc(ref, {recordatorio, jefe});
+return updateDoc(ref, {recordatorio});
   
   
 }
