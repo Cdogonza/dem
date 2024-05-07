@@ -4,8 +4,9 @@
 <div id="cards" *ngFor="let item of getTareas">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>{{item.nombre}}</mat-card-title>
+        <mat-card-title>Para: {{item.jefe}}</mat-card-title>
       </mat-card-header>
+      <h3><b>De: {{item.nombre}}</b></h3>
       <mat-card-content>{{item.recordatorio}}</mat-card-content>
       <mat-card-content>{{item.estado}}</mat-card-content>
       <mat-card-actions>

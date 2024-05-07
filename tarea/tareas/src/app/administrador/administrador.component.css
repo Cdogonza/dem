@@ -8,6 +8,9 @@ body {
     align-items: center; /* Centra verticalmente */
     background: linear-gradient(to bottom right, #4e6bff, #00b0ff); /* Fondo gradiente azul */
   }
+  h3{
+    margin-left: 5px;
+  }
   #eliminar{
     background-color: #ff4d4d; /* Fondo rojo */
     color: white; /* Texto blanco */

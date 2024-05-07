@@ -76,7 +76,7 @@ vistaTareas(estado:boolean){
 
   resolverTarea(id: Tarea['id']) {
     this.tareasService.updateTarea(id, 'completado').then(() => {
-      this.tareasService.filterBy('pendiente').subscribe((data) => {
+      this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
         this.getTareas = data;
         
       });
@@ -89,7 +89,7 @@ vistaTareas(estado:boolean){
     if (confirm("Seguro desea eliminar la tarea?") == true) {
 
     this.tareasService.deleteTarea(id).then(() => {
-      this.tareasService.filterBy('pendiente').subscribe((data) => {
+      this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
         this.getTareas = data;
       });
     }
@@ -97,7 +97,7 @@ vistaTareas(estado:boolean){
     );
   }else{
     alert('Eliminacion cancelada');
-    this.tareasService.filterBy('pendiente').subscribe((data) => {
+    this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
       this.getTareas = data;
     });
   }
@@ -106,17 +106,16 @@ vistaTareas(estado:boolean){
   ngOnInit(): void {
     // this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
     this.nombreUser = sessionStorage.getItem('nombre')||'';
-   this.verTareasPendientes();
   }
   public verTareasCompletas(){
     this.btnResolver = true;
-  this.tareasService.filterByCompletas('completado').subscribe((data) => {
+  this.tareasService.filterByCompletas('completado').subscribe((data: Tarea[]) => {
     this.getTareas = data;
   });
 }
 public verTareasPendientes(){
   this.btnResolver = false;
-  this.tareasService.filterBy('pendiente').subscribe((data) => {
+  this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
     this.getTareas = data;
   });
 }
@@ -132,7 +131,7 @@ editarTarea(id: Tarea['id']) {
     } else {
       person = text + '\n' + person;
       this.tareasService.editarTarea(id, person).then(() => {
-        this.tareasService.filterBy('pendiente').subscribe((data) => {
+        this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
           this.getTareas = data;
         }
 

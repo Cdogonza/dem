@@ -59,14 +59,14 @@ idTareaEdicion = '';
      
       this.tareasService.deleteTarea(id).then(() => {
      
-        this.tareasService.filterByUser(this.name).subscribe((data) => {
+        this.tareasService.filterByUser(this.name).subscribe((data: Tarea[]) => {
           this.getTareas = data;
           });
       }
       );
     } else {
       alert('Eliminacion cancelada');
-      this.tareasService.filterByUser(this.name).subscribe((data) => {
+      this.tareasService.filterByUser(this.name).subscribe((data: Tarea[]) => {
         this.getTareas = data;
         });
     }
@@ -96,18 +96,12 @@ idTareaEdicion = '';
     });
   }
   ngOnInit(): void {
-   
+
     this.obtenerUsuarios();
     this.obtenerNombre();
     this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
     localStorage.setItem('nombre', this.nombreUser);
-    //this.nombreUser = sessionStorage.getItem('nombre')?? '';
-    this.todasLasTareas();
-    // this.tareasService.filterByUser(this.name).subscribe((data) => {
-    // this.getTareas = data;
-    // });
-
-        
+       
   }
 vistaTareas(estado:boolean){
   if(estado){
@@ -121,13 +115,13 @@ vistaTareas(estado:boolean){
   }}
 
   public tareasPendientes(){
-    this.tareasService.filterByCompletasMias('pendiente', this.name).subscribe((data) => {
+    this.tareasService.filterByCompletasMias('pendiente', this.name).subscribe((data: Tarea[]) => {
       this.getTareas = data;
     });
   }
  public  tareasCompletadas(){
 
-  this.tareasService.filterByCompletasMias('completado', this.name).subscribe((data) => {
+  this.tareasService.filterByCompletasMias('completado', this.name).subscribe((data: Tarea[]) => {
     this.getTareas = data;
   });
 }
@@ -144,12 +138,12 @@ vistaTareas(estado:boolean){
 
   // mostrar tarea del usuario
   filterByUser() {
-    this.tareasService.filterByUser(this.name).subscribe((data) => {
+    this.tareasService.filterByUser(this.name).subscribe((data: Tarea[]) => {
       this.getTareas = data;
     });
   }
   todasLasTareas() {
-    this.tareasService.getTodasLasTareas(this.name).subscribe((data) => {
+    this.tareasService.getTodasLasTareas(this.name).subscribe((data: Tarea[]) => {
       this.getTareas = data;
     });
   }
