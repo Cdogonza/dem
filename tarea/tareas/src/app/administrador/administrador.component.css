@@ -76,7 +76,7 @@ body {
     margin-left: 20px;
   }
   #cards{
-    background-color: #cccccc; /* Fondo blanco */
+    /* background-color: #cccccc; Fondo blanco */
     border-radius: 10px; /* Bordes redondeados */
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
@@ -95,4 +95,7 @@ body {
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
     text-align: center;
+  }
+  #algo{
+    color: #81ff4256;
   }

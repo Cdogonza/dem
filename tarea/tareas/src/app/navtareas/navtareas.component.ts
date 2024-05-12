@@ -33,8 +33,11 @@ export class NavtareasComponent {
     verTareasPendientes(){
     this.tareas.tareasPendientes();
   }
-  ngOnInit(): void {
-   
+  verTodasTareas(){
+    this.tareas.todasLasTareas();
+  }
+  ngOnInit(){
     this.verTareasPendientes();
+    
   }
 }

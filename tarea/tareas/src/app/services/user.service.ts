@@ -46,7 +46,9 @@ export class UserService {
 
   //obtener el usuario logueado
   getUser(){
+    sessionStorage.setItem('email', this.auth.currentUser?.email || '');
     return this.auth.currentUser?.email;
+
   }
 
   //obtener unicamente el nombre del correo sin el dominio

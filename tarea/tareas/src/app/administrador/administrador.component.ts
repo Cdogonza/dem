@@ -1,21 +1,16 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCardModule} from '@angular/material/card';
 import { TareasService } from '../services/tareas.service';
-import { NgFor,NgIf } from '@angular/common';
+import { NgFor,NgIf,NgStyle } from '@angular/common';
 import Tarea from '../tarea';
 import { UserService } from '../services/user.service';
-import {canActivate} from '@angular/fire/auth-guard';
 import {Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {MatDialogTitle} from '@angular/material/dialog';
 import {MatDialogContent} from '@angular/material/dialog';
 import {MatDialogActions} from '@angular/material/dialog';
@@ -25,6 +20,7 @@ import {NavComponent} from '../nav/nav.component';
   selector: 'app-administrador',
   standalone: true,
   imports: [
+    NgStyle,
     NavComponent,
     NgFor,
     NgIf,
@@ -58,7 +54,7 @@ throw new Error('Method not implemented.');
   name = '';
 
   constructor(private tareasService: TareasService, private UserService: UserService,
-     private route: Router,private rroute: ActivatedRoute,public dialog: MatDialog)  {
+     public dialog: MatDialog)  {
 
       this.nombreUser = sessionStorage.getItem('nombre')||'';
      }
@@ -104,8 +100,8 @@ vistaTareas(estado:boolean){
 }
 
   ngOnInit(): void {
-    // this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
-    this.nombreUser = sessionStorage.getItem('nombre')||'';
+      // this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
+      this.nombreUser = sessionStorage.getItem('nombre')||'';
   }
   public verTareasCompletas(){
     this.btnResolver = true;
@@ -124,17 +120,16 @@ editarTarea(id: Tarea['id']) {
 
     let text;
     const tarea = this.getTareas.find((tarea) => tarea.id === id);
-    text = tarea?.recordatorio;
-    let person = prompt("Ingresa el comentario:", "COMENTARIO DE "+this.UserService.getUserName().toUpperCase() + ":");
+    text = tarea?.comentario;
+    let person = prompt("Ingresa el comentario:", text);
     if (person == null || person == "") {
       text = "User cancelled the prompt.";
     } else {
-      person = text + '\n' + person;
-      this.tareasService.editarTarea(id, person).then(() => {
+      person = person;
+      this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase()+" "+person).then(() => {
         this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
           this.getTareas = data;
         }
-
         );
 
       alert("Comentario guardado");

@@ -24,52 +24,44 @@
       <button id="btnFormularios2" *ngIf="EditarTarea" mat-flat-button (click)="confirmarEdicionTarea()">EDITAR</button>
       <button id="btnFormularios3" *ngIf="EditarTarea" mat-flat-button (click)="btnCancelar()">CANCELAR</button>
     </div>
-      
+
      
     </form>
-    <div id="cards" *ngFor="let item of getTareas">
-      <mat-card id="cardinterna">
-        <mat-card-header>
-          <mat-card-title>Para: {{item.jefe}}</mat-card-title>
-        </mat-card-header>
-        <h3><b>De: {{item.nombre}}</b></h3>
-        <mat-card-content>{{item.recordatorio}}</mat-card-content>
-        <div>
-        <mat-card-subtitle>{{item.estado}}</mat-card-subtitle>
 
-        <button href="#arriba" mat-icon-button (click)="editarTarea(item.id)" >
-          <span class="material-icons md-15 orange500 ">edit</span>
-        </button>
-        <button href="#arriba" mat-icon-button (click)="delete(item.id)" >
-          <span class="material-icons md-15 orange500 ">delete</span>
-        </button>
+    <div id="cards" class="card mb-3" [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"*ngFor="let item of getTareas">
+      <div class="card-body" style= "background-color: #ffffffd7; border-radius: 10px;">
+        <div class="card-header" style= "background-color: #ffffffd7;">
+          
+          <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
+        
+        <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
+        <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
+        </div>
+        <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
+        <div class="card-footer" style= "background-color: #ffffffd7;">
+          
+            <p class="card-text" style= "background-color: #ffffffd7;" *ngIf="item.comentario"><b>COMENTARIO DE: </b>{{item.comentario}}</p>
+        
+          <button mat-icon-button (click)="editarTarea(item.id)" >
+            <span class="material-icons md-15 orange500 ">edit</span>
+          </button>
+          <button  mat-icon-button (click)="delete(item.id)" >
+            <span class="material-icons md-15 orange500 ">delete</span>
+          </button>
+          <button *ngIf="item.comentario && item.coment"  mat-icon-button (click)="leido(item.id)" >
+            <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
+              notifications_off
+              </span></span>
+          </button>
+          <button *ngIf="item.comentario && !item.coment"  mat-icon-button (click)="leidoflaso(item.id)" >
+            <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
+              notifications_on
+              </span></span>
+          </button>
+        </div>
         
       </div>
-      
-      </mat-card>
-      <br>
     </div>
-    <!-- <table id="tabla" mat-table [dataSource]="getTareas" class="mat-elevation-z8">
 
-
-      <ng-container matColumnDef="NOMBRE">
-        <th mat-header-cell *matHeaderCellDef> NOMBRE </th>
-        <td id="nombre" mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-      </ng-container>
-    
-
-      <ng-container matColumnDef="TAREA">
-        <th mat-header-cell *matHeaderCellDef> TAREA </th>
-        <td id="tarea" mat-cell *matCellDef="let element"> {{element.recordatorio}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="ESTADO">
-        <th id="estado" *matHeaderCellDef> ESTADO </th>
-        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
-        
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table> -->
 </div>
+

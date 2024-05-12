@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCardModule} from '@angular/material/card';
 import { TareasService } from '../services/tareas.service';
-import { NgFor,NgIf } from '@angular/common';
+import { NgFor,NgIf,NgStyle } from '@angular/common';
 import Tarea from '../tarea';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ import { NavtareasComponent } from '../navtareas/navtareas.component';
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [NavtareasComponent,MatSelectModule,MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
+  imports: [NgStyle,NavtareasComponent,MatSelectModule,MatToolbarModule,MatIconModule,NgIf,MatTableModule,NgFor,RouterModule,RouterOutlet,MatInputModule,MatButtonModule,FormsModule,ReactiveFormsModule,MatCardModule],
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
 })
@@ -37,22 +37,26 @@ idTareaEdicion = '';
   tarea = '';
   getTareas: Tarea[] = []; 
   btntareas= 'Tareas Completadas';
-  btntareasToggle= false;
-  estadoTarea:boolean = false;
+  leidoVar:boolean = true;
    
   constructor(private rroute: ActivatedRoute,private tareasService: TareasService, private userService: UserService, private route: Router) { 
     this.formulario = new FormGroup({
       nombre: new FormControl(),
-      recordatorio: new FormControl()
+      recordatorio: new FormControl(),
+      jefe: new FormControl()
     });
     this.EditarTarea = false;
   
     this.nombreUser = sessionStorage.getItem('nombre')||'';
-    
+    this.name = sessionStorage.getItem('email')||'';
   }
-
   
-
+leido(id: Tarea['id']){
+  this.tareasService.editarLecturaComentario(id);
+}
+leidoflaso(id: Tarea['id']){
+  this.tareasService.editarLecturaComentarioFalso(id);
+}
   delete(id: Tarea['id']) {
     let text;
     if (confirm("Seguro desea eliminar la tarea?") == true) {
@@ -86,7 +90,9 @@ idTareaEdicion = '';
       recordatorio: tarea.recordatorio,
       estado: 'pendiente',
       user: this.name,
-      jefe: this.selected
+      jefe: this.selected,
+      comentario: '',
+      coment: false
     }
     this.tareasService.addTarea(tareaFinal).then(() => {
       this.alerta();
@@ -95,32 +101,24 @@ idTareaEdicion = '';
       
     });
   }
-  ngOnInit(): void {
 
-    this.obtenerUsuarios();
-    this.obtenerNombre();
+  ngOnInit(): void {
     this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
-    localStorage.setItem('nombre', this.nombreUser);
-       
+    this.name = this.rroute.snapshot.paramMap.get('user')+'@dnsffaa.gub.uy' ?? '';
+    sessionStorage.setItem('nombre', this.nombreUser);
+    sessionStorage.setItem('email', this.name);
+
+    
   }
-vistaTareas(estado:boolean){
-  if(estado){
-    this.btntareas = 'Tareas Pendientes';
-    this.tareasPendientes();
-    this.btntareasToggle = false;
-  }else{
-    this.btntareas = 'Tareas Completadas';
-    this.tareasCompletadas();
-    this.btntareasToggle = true;
-  }}
 
   public tareasPendientes(){
     this.tareasService.filterByCompletasMias('pendiente', this.name).subscribe((data: Tarea[]) => {
       this.getTareas = data;
+      console.log(this.name);
+      console.log(this.getTareas);
     });
   }
  public  tareasCompletadas(){
-
   this.tareasService.filterByCompletasMias('completado', this.name).subscribe((data: Tarea[]) => {
     this.getTareas = data;
   });
@@ -129,22 +127,19 @@ vistaTareas(estado:boolean){
 
   obtenerUsuarios(){
     this.name = this.userService.getUser()||'';
+    
   }
   obtenerNombre(){
     this.nombreUser = this.userService.getUserName();
     sessionStorage.setItem('nombre', this.nombreUser);
+
   }
     
-
-  // mostrar tarea del usuario
-  filterByUser() {
-    this.tareasService.filterByUser(this.name).subscribe((data: Tarea[]) => {
-      this.getTareas = data;
-    });
-  }
-  todasLasTareas() {
+  public todasLasTareas() {
     this.tareasService.getTodasLasTareas(this.name).subscribe((data: Tarea[]) => {
       this.getTareas = data;
+      console.log(this.name);
+      console.log(this.getTareas);
     });
   }
   
@@ -190,7 +185,7 @@ vistaTareas(estado:boolean){
         return;
       }
       this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio).then(() => {
-        this.todasLasTareas();
+        this.tareasPendientes();
         this.limpiar();
         this.EditarTarea = false;
       });

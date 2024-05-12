@@ -53,6 +53,8 @@ export class LoginComponent {
     this.form?.reset();
   }
   goToTareas(user:string) {
+    sessionStorage.setItem('nombre', user);
+    sessionStorage.setItem('email', user + '@dnsffaa.gub.uy');
     this.UserService.goToTareas(user);
   }
 

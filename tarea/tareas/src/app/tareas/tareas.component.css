@@ -92,12 +92,18 @@ body {
   }
   #cards{
     
-    border-collapse: collapse;
-    margin-top: 5px;
-    flex-direction: column;
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    display: flex;
+    flex-direction: column; /* Elementos uno debajo del otro */
     margin-left:5%;
     margin-right:5%;
+    margin-top: 10px;
 
+  }
+  .card-body{
+    background-color: #80f76238;
   }
   #divBar{
     display: flex;
@@ -151,7 +157,7 @@ body {
     background-color: #e3e2e27a;
 
   }
-  .material-icons.orange500 { color: #000000; background-color: #e3e2e27a; }
+  .material-icons.orange500 { color: #000000; background-color: #e3e2e200;}
   #pronto{
     background-color: #4e6bff;
     color: #fff;

@@ -27,8 +27,7 @@ export class AuthguardService {
 
 
    checkEmailMatch(){
-    console.log(this.nombreUser);
-    if(this.userService.getUserName() == 'gpaz'|| this.userService.getUserName() == 'eclara'){
+    if(this.nombreUser == 'gpaz'|| this.nombreUser == 'eclara'){
       return true;
     }else{
 

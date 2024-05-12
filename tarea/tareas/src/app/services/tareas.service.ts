@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData,deleteDoc,doc, updateDoc,query,where } from '@angular/fire/firestore';
 import Tarea from '../tarea';
 import { Observable } from 'rxjs';
-import {UserService} from './user.service';
 
 
 @Injectable({
@@ -11,7 +10,7 @@ import {UserService} from './user.service';
 export class TareasService {
 
   
-  constructor(private firestore: Firestore, private userService: UserService) { 
+  constructor(private firestore: Firestore) { 
 
   }
 
@@ -65,9 +64,26 @@ editarTarea(id: Tarea['id'], recordatorio: string) {
 
   const ref = doc(this.firestore, 'tareas', id);
 return updateDoc(ref, {recordatorio});
-  
-  
+
 }
+agregarComentario(id: Tarea['id'], comentario: string) {
+
+const ref = doc(this.firestore, 'tareas', id);
+return updateDoc(ref, {comentario, coment: true});
+
+}
+editarLecturaComentario(id: Tarea['id']) {
+
+  const ref = doc(this.firestore, 'tareas', id)
+
+    return updateDoc(ref, {coment: false});
+  }
+  editarLecturaComentarioFalso(id: Tarea['id']) {
+
+    const ref = doc(this.firestore, 'tareas', id)
+  
+      return updateDoc(ref, {coment: true});
+    }
 // mostrar tarea de cada usuario
 filterByUser(categoriaToFilter: string) {
   const ref = collection(this.firestore, 'tareas');
