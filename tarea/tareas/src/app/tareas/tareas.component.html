@@ -27,20 +27,19 @@
 
      
     </form>
-
+<!-- *ngIf="item.comentario"  -->
     <div id="cards" class="card mb-3" [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"*ngFor="let item of getTareas">
       <div class="card-body" style= "background-color: #ffffffd7; border-radius: 10px;">
         <div class="card-header" style= "background-color: #ffffffd7;">
           
           <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
-        
         <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
         <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
         </div>
         <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
         <div class="card-footer" style= "background-color: #ffffffd7;">
           
-            <p class="card-text" style= "background-color: #ffffffd7;" *ngIf="item.comentario"><b>COMENTARIO DE: </b>{{item.comentario}}</p>
+          <p class="card-text" style= "background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO DE: </b>{{cmd}}</p>
         
           <button mat-icon-button (click)="editarTarea(item.id)" >
             <span class="material-icons md-15 orange500 ">edit</span>
@@ -57,6 +56,9 @@
             <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
               notifications_on
               </span></span>
+          </button>
+          <button  mat-icon-button (click)="comentarTarea(item.id)" >
+            <span class="material-icons md-15 orange500 ">add</span>
           </button>
         </div>
         

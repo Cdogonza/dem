@@ -5,6 +5,6 @@ export default interface Tarea {
     estado: string;
     user: string;
     jefe: string;
-    comentario: string;
+    comentario: string [];
     coment:boolean;
 }

@@ -35,16 +35,16 @@
       <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
       <div class="card-footer" style= "background-color: #ffffffd7;">
         
-          <p class="card-text" *ngIf="item.comentario"><b>COMENTARIO DE: </b>{{item.comentario}}</p>
+        <p class="card-text" style= "background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO DE: </b>{{cmd}}</p>
           <button *ngIf="!btnResolver" href="#arriba" mat-icon-button (click)="resolverTarea(item.id)" >
             <span class="material-icons md-15 orange500 ">done</span>
           </button>
-        <button mat-icon-button (click)="editarTarea(item.id)" >
-          <span class="material-icons md-15 orange500 ">edit</span>
-        </button>
         <button  mat-icon-button (click)="delete(item.id)" >
           <span class="material-icons md-15 orange500 ">delete</span>
         </button>
+      <button  mat-icon-button (click)="comentarTarea(item.id)" >
+        <span class="material-icons md-15 orange500 ">add</span>
+      </button>
       </div>
       
     </div>

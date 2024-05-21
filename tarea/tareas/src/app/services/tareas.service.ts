@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData,deleteDoc,doc, updateDoc,query,where } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData,deleteDoc,doc, updateDoc,query,where,arrayUnion } from '@angular/fire/firestore';
 import Tarea from '../tarea';
 import { Observable } from 'rxjs';
 
@@ -22,67 +22,67 @@ export class TareasService {
   }
 
 //obtengo todas las tareas publicadass
-getData(): Observable<Tarea[]> {
+async getData(): Promise<Observable<Tarea[]>> {
   const ref = collection(this.firestore, 'tareas');
 
-return collectionData(ref, {idField: 'id'}) as Observable<Tarea[]>;
+return await collectionData(ref, {idField: 'id'}) as Observable<Tarea[]>;
 }
  
 // mostrar tarea si esta pendiente
- filterBy(categoriaToFilter: string) {
+async filterBy(categoriaToFilter: string) {
   const ref = collection(this.firestore, 'tareas');
-  return collectionData(query(ref, where('estado', '==', categoriaToFilter)), {idField: 'id'}) as Observable<Tarea[]>;
+  return await collectionData(query(ref, where('estado', '==', categoriaToFilter)), {idField: 'id'}) as Observable<Tarea[]>;
 }
 // mostrar tarea si esta pendiente
-filterByCompletas(categoriaToFilter: string) {
+async filterByCompletas(categoriaToFilter: string) {
   const ref = collection(this.firestore, 'tareas');
-  return collectionData(query(ref, where('estado', '==', categoriaToFilter)), {idField: 'id'}) as Observable<Tarea[]>;
+  return await collectionData(query(ref, where('estado', '==', categoriaToFilter)), {idField: 'id'}) as Observable<Tarea[]>;
 }
-filterByCompletasMias(categoriaToFilter: string, user: string) {  
+async filterByCompletasMias(categoriaToFilter: string, user: string) {  
   const ref = collection(this.firestore, 'tareas');
-  return collectionData(query(ref, where('estado', '==', categoriaToFilter), where('user','==',user)), {idField: 'id'}) as Observable<Tarea[]>;
+  return await collectionData(query(ref, where('estado', '==', categoriaToFilter), where('user','==',user)), {idField: 'id'}) as Observable<Tarea[]>;
 }
 
-getTodasLasTareas(user: string) {
+async getTodasLasTareas(user: string) {
   const ref = collection(this.firestore, 'tareas');
-  return collectionData(query(ref, where('user','==',user)), {idField: 'id'}) as Observable<Tarea[]>;
+  return await collectionData(query(ref, where('user','==',user)), {idField: 'id'}) as Observable<Tarea[]>;
 }
 
 //borrar tarea
-deleteTarea(id: Tarea['id']) {
+async deleteTarea(id: Tarea['id']) {
   const ref = doc(this.firestore, 'tareas', id);
-  return deleteDoc(ref);
+  return await deleteDoc(ref);
 }
 
 //cambiar el estado de pendiente a completado
-updateTarea(id: Tarea['id'], estado: Tarea['estado']) {
+async updateTarea(id: Tarea['id'], estado: Tarea['estado']) {
   const ref = doc(this.firestore, 'tareas', id);
-  return updateDoc(ref, {estado});
+  return await updateDoc(ref, {estado});
 
 }
-editarTarea(id: Tarea['id'], recordatorio: string) {
+async editarTarea(id: Tarea['id'], recordatorio: string) {
 
   const ref = doc(this.firestore, 'tareas', id);
-return updateDoc(ref, {recordatorio});
+return await updateDoc(ref, {recordatorio});
 
 }
-agregarComentario(id: Tarea['id'], comentario: string) {
+async agregarComentario(id: Tarea['id'], comentario: string) {
 
 const ref = doc(this.firestore, 'tareas', id);
-return updateDoc(ref, {comentario, coment: true});
+return await updateDoc(ref, {comentario:arrayUnion(comentario), coment: true});
 
 }
-editarLecturaComentario(id: Tarea['id']) {
+async editarLecturaComentario(id: Tarea['id']) {
 
   const ref = doc(this.firestore, 'tareas', id)
 
-    return updateDoc(ref, {coment: false});
+    return await updateDoc(ref, {coment: false});
   }
-  editarLecturaComentarioFalso(id: Tarea['id']) {
+  async editarLecturaComentarioFalso(id: Tarea['id']) {
 
     const ref = doc(this.firestore, 'tareas', id)
   
-      return updateDoc(ref, {coment: true});
+      return await updateDoc(ref, {coment: true});
     }
 // mostrar tarea de cada usuario
 filterByUser(categoriaToFilter: string) {

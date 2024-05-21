@@ -7,14 +7,14 @@ import { PassComponent } from './pass/pass.component';
 import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
-    
+   
+
     {path: 'tareas/:user', component: TareasComponent}, 
     {path: 'register/:user', component: RegisterComponent, canActivate:[authGuard]},
     {path: 'administrador/:user', component: AdministradorComponent, canActivate:[authGuard]},
     {path: 'login', component: LoginComponent},
     {path: 'pass', component: PassComponent},
     {path: '**', redirectTo: 'login', pathMatch: 'full'},
-
 ];
 
 

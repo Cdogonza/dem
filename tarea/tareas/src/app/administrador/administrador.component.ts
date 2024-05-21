@@ -54,9 +54,10 @@ throw new Error('Method not implemented.');
   name = '';
 
   constructor(private tareasService: TareasService, private UserService: UserService,
-     public dialog: MatDialog)  {
+     public dialog: MatDialog,private rroute: ActivatedRoute)  {
 
-      this.nombreUser = sessionStorage.getItem('nombre')||'';
+      this.nombreUser = sessionStorage.getItem('nombre') || '';
+    this.name = sessionStorage.getItem('email') || '';
      }
 
 vistaTareas(estado:boolean){
@@ -71,8 +72,8 @@ vistaTareas(estado:boolean){
   }}
 
   resolverTarea(id: Tarea['id']) {
-    this.tareasService.updateTarea(id, 'completado').then(() => {
-      this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
+    this.tareasService.updateTarea(id, 'completado').then(async () => {
+      (await this.tareasService.filterBy('pendiente')).subscribe((data: Tarea[]) => {
         this.getTareas = data;
         
       });
@@ -80,12 +81,12 @@ vistaTareas(estado:boolean){
     }
     );
   }
-  delete(id: Tarea['id']) {
+  async delete(id: Tarea['id']) {
 
     if (confirm("Seguro desea eliminar la tarea?") == true) {
 
-    this.tareasService.deleteTarea(id).then(() => {
-      this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
+    this.tareasService.deleteTarea(id).then(async () => {
+      (await this.tareasService.filterBy('pendiente')).subscribe((data: Tarea[]) => {
         this.getTareas = data;
       });
     }
@@ -93,53 +94,47 @@ vistaTareas(estado:boolean){
     );
   }else{
     alert('Eliminacion cancelada');
-    this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
+    (await this.tareasService.filterBy('pendiente')).subscribe((data: Tarea[]) => {
       this.getTareas = data;
     });
   }
 }
 
   ngOnInit(): void {
-      // this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
-      this.nombreUser = sessionStorage.getItem('nombre')||'';
+    this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
+    this.name = this.rroute.snapshot.paramMap.get('user') + '@dnsffaa.gub.uy' ?? '';
+    sessionStorage.setItem('nombre', this.nombreUser);
+    sessionStorage.setItem('email', this.name);
   }
-  public verTareasCompletas(){
+  public async verTareasCompletas(){
     this.btnResolver = true;
-  this.tareasService.filterByCompletas('completado').subscribe((data: Tarea[]) => {
+  (await this.tareasService.filterByCompletas('completado')).subscribe((data: Tarea[]) => {
     this.getTareas = data;
   });
 }
-public verTareasPendientes(){
+public async verTareasPendientes(){
   this.btnResolver = false;
-  this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
+  (await this.tareasService.filterBy('pendiente')).subscribe((data: Tarea[]) => {
     this.getTareas = data;
   });
 }
 
-editarTarea(id: Tarea['id']) {
 
-    let text;
-    const tarea = this.getTareas.find((tarea) => tarea.id === id);
-    text = tarea?.comentario;
-    let person = prompt("Ingresa el comentario:", text);
-    if (person == null || person == "") {
-      text = "User cancelled the prompt.";
-    } else {
-      person = person;
-      this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase()+" "+person).then(() => {
-        this.tareasService.filterBy('pendiente').subscribe((data: Tarea[]) => {
-          this.getTareas = data;
-        }
-        );
+comentarTarea(id: Tarea['id']) {
 
-      alert("Comentario guardado");
-
-    }
-    );
-
-
- 
+  let text;
+  const tarea = this.getTareas.find((tarea) => tarea.id === id);
+  //text = tarea?.comentario;
+  let person = prompt("Ingresa el comentario:", text);
+  if (person == null || person == "") {
+    text = "User cancelled the prompt.";
+  } else {
+    person = person;
+    this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase()+" "+person).then( () => {
+      this.verTareasPendientes();
 
   }
+  );
+}
 }
 }
