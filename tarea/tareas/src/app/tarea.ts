@@ -7,4 +7,5 @@ export default interface Tarea {
     jefe: string;
     comentario: string [];
     coment:boolean;
+    fecha: string;
 }

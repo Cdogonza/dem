@@ -38,6 +38,7 @@ export class TareasComponent {
   getTareas: Tarea[] = [];
   btntareas = 'Tareas Completadas';
   leidoVar: boolean = true;
+  currentDate: Date = new Date();
 
   constructor(private rroute: ActivatedRoute, private tareasService: TareasService, private userService: UserService, private route: Router) {
     this.formulario = new FormGroup({
@@ -50,7 +51,13 @@ export class TareasComponent {
     this.nombreUser = sessionStorage.getItem('nombre') || '';
     this.name = sessionStorage.getItem('email') || '';
   }
+  getCurrentDate(): string {
+    const day = this.currentDate.getDate().toString().padStart(2, '0');
+    const month = (this.currentDate.getMonth() + 1).toString().padStart(2, '0'); // Meses empiezan en 0
+    const year = this.currentDate.getFullYear().toString().slice(-2); // Tomar últimos dos dígitos del año
 
+    return `${day}-${month}-${year}`;
+  }
   leido(id: Tarea['id']) {
     this.tareasService.editarLecturaComentario(id);
   }
@@ -88,7 +95,8 @@ export class TareasComponent {
       user: this.name,
       jefe: this.selected,
       comentario: [],
-      coment: false
+      coment: false,
+      fecha: this.getCurrentDate()
     }
     this.tareasService.addTarea(tareaFinal).then(() => {
       this.alerta();

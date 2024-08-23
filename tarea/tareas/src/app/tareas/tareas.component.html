@@ -3,6 +3,7 @@
     <form novalidate [formGroup]="formulario" >
       
       <h1 name="arriba" >Agregar tarea</h1>
+      <h3 >{{getCurrentDate()}}</h3>
       <mat-form-field id="nombreDesactivado">
        <input id="inputDesactivado" matInput type="text" formControlName="nombre">{{nombreUser}}</mat-form-field>
        <mat-form-field>
@@ -33,8 +34,8 @@
         <div class="card-header" style= "background-color: #ffffffd7;">
           
           <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
-          <h3 class="card-title mb-0"><b>{{item.jefe}}</b> </h3>
-          <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
+          <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
+        <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
         <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
         </div>
         <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
