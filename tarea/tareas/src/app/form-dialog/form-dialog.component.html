@@ -1,0 +1,28 @@
+    <form novalidate [formGroup]="formulario" >
+      
+      <h1 name="arriba" >Agregar tarea</h1>
+      <h3 >{{getCurrentDate()}}</h3>
+      <mat-form-field id="nombreDesactivado">
+       <input id="inputDesactivado" matInput type="text" formControlName="nombre">{{nombreUser}}</mat-form-field>
+       <mat-form-field>
+        <mat-label>Para quien es la Tarea</mat-label>
+        <mat-select [(value)]="selected" formControlName="jefe">
+          <mat-option value="Cap Paz">Cap Paz</mat-option>
+          <mat-option value="Tte Clara">Tte Clara</mat-option>
+          <mat-option value="Ambos">Ambos</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        
+        <mat-label id="tarea">Tarea</mat-label>
+        <textarea id="textoTarea" matInput type="text" formControlName="recordatorio"></textarea>
+      </mat-form-field>
+      <div >
+      <button id="btnFormularios1" *ngIf="!EditarTarea" mat-flat-button (click)="AgregarTarea()">ENVIAR</button>
+      <!-- <button id="btnFormularios2" *ngIf="EditarTarea" mat-flat-button (click)="confirmarEdicionTarea()">EDITAR</button>
+      <button id="btnFormularios3" *ngIf="EditarTarea" mat-flat-button (click)="btnCancelar()">CANCELAR</button> -->
+    </div>
+
+     
+    </form>

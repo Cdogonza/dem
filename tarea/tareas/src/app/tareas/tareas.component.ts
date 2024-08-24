@@ -15,12 +15,14 @@ import { ActivatedRoute } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { NavtareasComponent } from '../navtareas/navtareas.component';
-
+import { MatDialog } from '@angular/material/dialog';
+import { FormDialogComponent } from '../form-dialog/form-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
+  imports: [MatDialogModule,NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
     MatTableModule, NgFor, RouterModule, RouterOutlet, MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatCardModule],
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
@@ -40,7 +42,7 @@ export class TareasComponent {
   leidoVar: boolean = true;
   currentDate: Date = new Date();
 
-  constructor(private rroute: ActivatedRoute, private tareasService: TareasService, private userService: UserService, private route: Router) {
+  constructor(public dialog: MatDialog,private rroute: ActivatedRoute, private tareasService: TareasService, private userService: UserService, private route: Router) {
     this.formulario = new FormGroup({
       nombre: new FormControl(),
       recordatorio: new FormControl(),
@@ -51,6 +53,14 @@ export class TareasComponent {
     this.nombreUser = sessionStorage.getItem('nombre') || '';
     this.name = sessionStorage.getItem('email') || '';
   }
+  openFormDialog(): void {
+    this.dialog.open(FormDialogComponent, {
+      width: '50%', // Ajusta el tamaño según tus necesidades
+      height: '50%', // Ajusta el tamaño según tus necesidades
+    });
+  }
+
+
   getCurrentDate(): string {
     const day = this.currentDate.getDate().toString().padStart(2, '0');
     const month = (this.currentDate.getMonth() + 1).toString().padStart(2, '0'); // Meses empiezan en 0
@@ -137,11 +147,17 @@ export class TareasComponent {
   }
 
   public async todasLasTareas() {
-    (await this.tareasService.getTodasLasTareas(this.name)).subscribe((data: Tarea[]) => {
+    (await this.tareasService.getTasks(this.name)).subscribe((data: Tarea[]) => {
       this.getTareas = data;
 
     });
   }
+  // public async todasLasTareas() {
+  //   (await this.tareasService.getTodasLasTareas(this.name)).subscribe((data: Tarea[]) => {
+  //     this.getTareas = data;
+
+  //   });
+  // }
 
   btnCancelar() {
     this.EditarTarea = false;
@@ -199,7 +215,7 @@ export class TareasComponent {
 
 
   comentarTarea(id: Tarea['id']) {
-
+    let dat = this.getCurrentDate();
     let text;
     const tarea = this.getTareas.find((tarea) => tarea.id === id);
     //text = tarea?.comentario;

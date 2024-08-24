@@ -73,7 +73,7 @@ vistaTareas(estado:boolean){
 
   resolverTarea(id: Tarea['id']) {
     this.tareasService.updateTarea(id, 'completado').then(async () => {
-      (await this.tareasService.filterBy('pendiente')).subscribe((data: Tarea[]) => {
+      (await this.tareasService.filterByCompletas('pendiente')).subscribe((data: Tarea[]) => {
         this.getTareas = data;
         
       });
@@ -86,7 +86,7 @@ vistaTareas(estado:boolean){
     if (confirm("Seguro desea eliminar la tarea?") == true) {
 
     this.tareasService.deleteTarea(id).then(async () => {
-      (await this.tareasService.filterBy('pendiente')).subscribe((data: Tarea[]) => {
+      (await this.tareasService.filterByCompletas('pendiente')).subscribe((data: Tarea[]) => {
         this.getTareas = data;
       });
     }
@@ -94,7 +94,7 @@ vistaTareas(estado:boolean){
     );
   }else{
     alert('Eliminacion cancelada');
-    (await this.tareasService.filterBy('pendiente')).subscribe((data: Tarea[]) => {
+    (await this.tareasService.filterByCompletas('pendiente')).subscribe((data: Tarea[]) => {
       this.getTareas = data;
     });
   }
@@ -114,7 +114,7 @@ vistaTareas(estado:boolean){
 }
 public async verTareasPendientes(){
   this.btnResolver = false;
-  (await this.tareasService.filterBy('pendiente')).subscribe((data: Tarea[]) => {
+  (await this.tareasService.filterByCompletas('pendiente')).subscribe((data: Tarea[]) => {
     this.getTareas = data;
   });
 }

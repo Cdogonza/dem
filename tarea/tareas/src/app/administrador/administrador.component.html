@@ -28,7 +28,7 @@
       <div class="card-header" style= "background-color: #ffffffd7;">
         
         <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
-      
+        <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
       <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
       <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
       </div>
@@ -36,15 +36,13 @@
       <div class="card-footer" style= "background-color: #ffffffd7;">
         
         <p class="card-text" style= "background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO DE: </b>{{cmd}}</p>
-          <button *ngIf="!btnResolver" href="#arriba" mat-icon-button (click)="resolverTarea(item.id)" >
-            <span class="material-icons md-15 orange500 ">done</span>
-          </button>
+
         <button  mat-icon-button (click)="delete(item.id)" >
           <span class="material-icons md-15 orange500 ">delete</span>
         </button>
-      <button  mat-icon-button (click)="comentarTarea(item.id)" >
-        <span class="material-icons md-15 orange500 ">add</span>
-      </button>
+        <button  mat-icon-button (click)="comentarTarea(item.id)" >
+          <span class="material-icons md-15 orange500 ">add</span>
+        </button>
       </div>
       
     </div>

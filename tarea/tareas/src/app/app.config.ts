@@ -10,5 +10,5 @@ export const appConfig: ApplicationConfig = {
   
   providers: [provideRouter(routes), importProvidersFrom(provideFirebaseApp(() => 
     initializeApp({"projectId":"tarasjefaturadem","appId":"1:353101903623:web:535cf4ad9b639bcc2a77a2","storageBucket":"tarasjefaturadem.appspot.com","apiKey":"AIzaSyCFGoBCdCYu1QJULQ1k0W0EzVi1NlQpKqM","authDomain":"tarasjefaturadem.firebaseapp.com","messagingSenderId":"353101903623"}))), importProvidersFrom(provideFirestore(() => getFirestore())), provideAnimationsAsync(), 
-    provideAnimationsAsync(), importProvidersFrom(provideFirebaseApp(() => initializeApp({"projectId":"tarasjefaturadem","appId":"1:353101903623:web:535cf4ad9b639bcc2a77a2","storageBucket":"tarasjefaturadem.appspot.com","apiKey":"AIzaSyCFGoBCdCYu1QJULQ1k0W0EzVi1NlQpKqM","authDomain":"tarasjefaturadem.firebaseapp.com","messagingSenderId":"353101903623"}))), importProvidersFrom(provideAuth(() => getAuth()))]
+    provideAnimationsAsync(), importProvidersFrom(provideFirebaseApp(() => initializeApp({"projectId":"tarasjefaturadem","appId":"1:353101903623:web:535cf4ad9b639bcc2a77a2","storageBucket":"tarasjefaturadem.appspot.com","apiKey":"AIzaSyCFGoBCdCYu1QJULQ1k0W0EzVi1NlQpKqM","authDomain":"tarasjefaturadem.firebaseapp.com","messagingSenderId":"353101903623"}))), importProvidersFrom(provideAuth(() => getAuth())), provideAnimationsAsync()]
 };
