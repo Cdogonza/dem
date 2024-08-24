@@ -38,10 +38,11 @@ export class TareasComponent {
   nombreUser = '';
   tarea = '';
   getTareas: Tarea[] = [];
+  getTareasAsignadas: Tarea[] = [];
   btntareas = 'Tareas Completadas';
   leidoVar: boolean = true;
   currentDate: Date = new Date();
-
+  tareasJefe:boolean;
   constructor(public dialog: MatDialog,private rroute: ActivatedRoute, private tareasService: TareasService, private userService: UserService, private route: Router) {
     this.formulario = new FormGroup({
       nombre: new FormControl(),
@@ -49,7 +50,7 @@ export class TareasComponent {
       jefe: new FormControl()
     });
     this.EditarTarea = false;
-
+    this.tareasJefe = false;
     this.nombreUser = sessionStorage.getItem('nombre') || '';
     this.name = sessionStorage.getItem('email') || '';
   }
@@ -126,11 +127,13 @@ export class TareasComponent {
 
   public async tareasPendientes() {
     (await this.tareasService.filterByCompletasMias('pendiente', this.name)).subscribe((data: Tarea[]) => {
+
       this.getTareas = data;
     });
   }
   public async tareasCompletadas() {
     (await this.tareasService.filterByCompletasMias('completado', this.name)).subscribe((data: Tarea[]) => {
+
       this.getTareas = data;
     });
   }

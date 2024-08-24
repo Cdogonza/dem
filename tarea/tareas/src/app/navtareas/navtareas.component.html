@@ -15,26 +15,11 @@
           <li class="nav-item">
             <a class="nav-link" [routerLink]="['/pass']"  routerLinkActive="active">Cambio Password</a>
           </li> 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Filtrar Tareas
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <button class="dropdown-item btn-link" (click)="verTareasCompletas()">Completas</button>
-            </li>
-              <li>
-                <a class="dropdown-item btn-link" (click)="verTareasPendientes()">Pendientes</a>
-              </li>
-              <li>
-                <a class="dropdown-item btn-link" (click)="verTodasTareas()">Todas Mis Tareas</a>
-              </li>
-              
-            </ul>
-          </li>
+          
           <li class="nav-item">
             <a class="btn btn-link "  (click)="onclick()">Cerrar Session</a>
-          </li>        
+          </li>
+          
         </ul>
       </div>
     </div>

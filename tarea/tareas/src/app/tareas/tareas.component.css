@@ -9,15 +9,25 @@ body {
     background: linear-gradient(to bottom right, #4e6bff, #00b0ff); /* Fondo gradiente azul */
   }
   .floatButton{
-    position: top;
-    bottom: 0px;
+    position: center;
+    bottom: 5px;
     right: 0px;
-    left: 100px;
+    left: 5px;
     width: 30px;
     height: 30px;
-    top: -40px;
+    top: 5px;
   }
-
+  form {
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    display: flex;
+    flex-direction: column; /* Elementos uno debajo del otro */
+    margin-left:5%;
+    margin-right:5%;
+    margin-top: 30px;
+  }
   #logOut{
     font-size: 0.6em;
     background-color: #3a5bff75; /* Azul */
