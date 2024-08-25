@@ -29,6 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 })
 export class TareasComponent {
 
+  admin: boolean;
   selected = 'Cap. Paz';
   EditarTarea: boolean;
   formulario: FormGroup;
@@ -53,6 +54,7 @@ export class TareasComponent {
     this.tareasJefe = false;
     this.nombreUser = sessionStorage.getItem('nombre') || '';
     this.name = sessionStorage.getItem('email') || '';
+    this.admin = false;
   }
   openFormDialog(): void {
     this.dialog.open(FormDialogComponent, {
@@ -122,7 +124,14 @@ export class TareasComponent {
     this.name = this.rroute.snapshot.paramMap.get('user') + '@dnsffaa.gub.uy' ?? '';
     sessionStorage.setItem('nombre', this.nombreUser);
     sessionStorage.setItem('email', this.name);
+    this.todasLasTareasAsignadas();
 
+  }
+  checkUser() {
+    if (this.rroute.snapshot.paramMap.get('user') === 'gpaz' || this.rroute.snapshot.paramMap.get('user') === 'eclara') {
+      this.admin = true;
+      
+    }
   }
 
   public async tareasPendientes() {
@@ -155,6 +164,18 @@ export class TareasComponent {
 
     });
   }
+  public async todasLasTareasAsignadas() {
+    if (this.nombreUser === 'gpaz' || this.nombreUser === 'eclara') {
+
+      (await this.tareasService.getTasksMias("Cap Paz")).subscribe((data: Tarea[]) => {
+        this.getTareasAsignadas = data;
+      });
+    } else {
+    (await this.tareasService.getTasksMias(this.nombreUser)).subscribe((data: Tarea[]) => {
+      this.getTareasAsignadas = data;
+      console.log(this.nombreUser);
+    });
+  }}
   // public async todasLasTareas() {
   //   (await this.tareasService.getTodasLasTareas(this.name)).subscribe((data: Tarea[]) => {
   //     this.getTareas = data;

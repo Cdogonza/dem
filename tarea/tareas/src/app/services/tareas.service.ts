@@ -81,6 +81,19 @@ async getTasks(user: string): Promise<Observable<any[]>> {
     observer.next(tasks);
   });
 }
+async getTasksMias(user: string): Promise<Observable<any[]>> {
+  const tasksCollection = collection(this.firestore, 'tareas');
+  const q = query(tasksCollection,where('jefe','==',user), orderBy('fecha', 'desc'));
+  const querySnapshot = await getDocs(q);
+  const tasks = querySnapshot.docs.map(doc => {
+    const data = doc.data();
+    const id = doc.id;
+    return { id, ...data };
+  });
+  return new Observable(observer => {
+    observer.next(tasks);
+  });
+}
 
 //borrar tarea
 async deleteTarea(id: Tarea['id']) {

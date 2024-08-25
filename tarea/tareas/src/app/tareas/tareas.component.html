@@ -1,7 +1,7 @@
 <app-navtareas></app-navtareas>
 
 
-<div style="margin-top: 15px;" class="container ">
+<div style="margin-top: 70px;" class="container ">
 
   <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
@@ -78,13 +78,51 @@
         role="tab" aria-controls="contact-tab-pane" aria-selected="false">Mis Tareas Completadas</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button"
+      <button (click)="checkUser()" class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button"
         role="tab" aria-controls="disabled-tab-pane" aria-selected="false">Nueva Tarea</button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-      vvbcvbvb
+      <div id="cards" class="card mb-3"
+        [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"
+        *ngFor="let item of getTareasAsignadas">
+        <div class="card-body" style="background-color: #ffffffd7; border-radius: 10px;">
+          <div class="card-header" style="background-color: #ffffffd7;">
+
+            <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
+            <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
+            <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
+            <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
+          </div>
+          <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
+          <div class="card-footer" style="background-color: #ffffffd7;">
+
+            <p class="card-text" style="background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO
+                DE: </b>{{cmd}}</p>
+
+            <button mat-icon-button (click)="editarTarea(item.id)">
+              <span class="material-icons md-15 orange500 ">edit</span>
+            </button>
+            <button mat-icon-button (click)="delete(item.id)">
+              <span class="material-icons md-15 orange500 ">delete</span>
+            </button>
+            <button *ngIf="item.comentario && item.coment" mat-icon-button (click)="leido(item.id)">
+              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
+                  notifications_off
+                </span></span>
+            </button>
+            <button *ngIf="item.comentario && !item.coment" mat-icon-button (click)="leidoflaso(item.id)">
+              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
+                  notifications_on
+                </span></span>
+            </button>
+            <button mat-icon-button (click)="comentarTarea(item.id)">
+              <span class="material-icons md-15 orange500 ">add</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
       <div id="cards" class="card mb-3"
@@ -175,13 +213,34 @@
         <h3>{{getCurrentDate()}}</h3>
         <mat-form-field id="nombreDesactivado">
           <input id="inputDesactivado" matInput type="text" formControlName="nombre">{{nombreUser}}</mat-form-field>
-        <mat-form-field>
-          <mat-label>Para quien es la Tarea</mat-label>
+        <mat-form-field *ngIf="admin">
+          <mat-label >Para quien es la Tarea</mat-label>
+          <mat-select [(value)]="selected" formControlName="jefe">
+            <mat-option value="Cap Paz">Cap Paz</mat-option>
+            <mat-option value="Tte Clara">Tte Clara</mat-option>
+            <mat-option value="irocha">Rocha</mat-option>
+            <mat-option value="nalonso">Alonso</mat-option>
+            <mat-option value="alfernandez">Fernandez</mat-option>
+            <mat-option value="ncursio">Cursio</mat-option>
+            <mat-option value="kpoletti">Poletti</mat-option>
+            <mat-option value="maolivera">Olivera</mat-option>
+            <mat-option value="fanunez">Nuñez</mat-option>
+            <mat-option value="dcarrera">Carrera</mat-option>
+            <mat-option value="rucosta">Costa</mat-option>
+            <mat-option value="nimachado">Machado</mat-option>
+            <mat-option value="smesones">Mesones</mat-option>
+            <mat-option value="mmoreira">Moreira</mat-option>
+            <mat-option value="Cruz">Cruz</mat-option>
+            <mat-option value="dcorrea">Correa</mat-option>
+            <mat-option value="lescobar">Escobar</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="!admin">
+          <mat-label >Para quien es la Tarea</mat-label>
           <mat-select [(value)]="selected" formControlName="jefe">
             <mat-option value="Cap Paz">Cap Paz</mat-option>
             <mat-option value="Tte Clara">Tte Clara</mat-option>
             <mat-option value="Ambos">Ambos</mat-option>
-
           </mat-select>
         </mat-form-field>
         <mat-form-field>
