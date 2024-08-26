@@ -2,20 +2,20 @@ import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatCardModule} from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatCardModule } from '@angular/material/card';
 import { TareasService } from '../services/tareas.service';
-import { NgFor,NgIf,NgStyle } from '@angular/common';
+import { NgFor, NgIf, NgStyle } from '@angular/common';
 import Tarea from '../tarea';
 import { UserService } from '../services/user.service';
-import {Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import {MatDialog} from '@angular/material/dialog';
-import {MatDialogTitle} from '@angular/material/dialog';
-import {MatDialogContent} from '@angular/material/dialog';
-import {MatDialogActions} from '@angular/material/dialog';
-import {MatDialogClose} from '@angular/material/dialog';
-import {NavComponent} from '../nav/nav.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogTitle } from '@angular/material/dialog';
+import { MatDialogContent } from '@angular/material/dialog';
+import { MatDialogActions } from '@angular/material/dialog';
+import { MatDialogClose } from '@angular/material/dialog';
+import { NavComponent } from '../nav/nav.component';
 @Component({
   selector: 'app-administrador',
   standalone: true,
@@ -42,99 +42,107 @@ import {NavComponent} from '../nav/nav.component';
   styleUrl: './administrador.component.css'
 })
 export class AdministradorComponent {
-openDialog() {
-throw new Error('Method not implemented.');
-}
+  openDialog() {
+    throw new Error('Method not implemented.');
+  }
 
-  btnResolver:boolean = true;
-  getTareas: Tarea[] = [];
-  nombreUser='';
-  btntareas= 'Tareas Completadas';
-  btntareasToggle= false;
+  btnResolver: boolean = true;
+
+  getTareas: any[] = [];
+  getTareasCompletas: any[] = [];
+
+  cartelesTask: boolean = false;
+  cartelesTaskComplete: boolean = false;
+  cartelTareas = 'No tienes Tareas Para Mostrar';
+  nombreUser = '';
+  btntareas = 'Tareas Completadas';
+  btntareasToggle = false;
   name = '';
 
   constructor(private tareasService: TareasService, private UserService: UserService,
-     public dialog: MatDialog,private rroute: ActivatedRoute)  {
+    public dialog: MatDialog, private rroute: ActivatedRoute) {
 
-      this.nombreUser = sessionStorage.getItem('nombre') || '';
+    this.nombreUser = sessionStorage.getItem('nombre') || '';
     this.name = sessionStorage.getItem('email') || '';
-     }
+  }
 
-vistaTareas(estado:boolean){
-  if(estado){
-    this.btntareas = 'Tareas Completadas';
-    this.verTareasPendientes();
-    this.btntareasToggle = false;
-  }else{
-    this.btntareas = 'Tareas Pendientes';
-    this.verTareasCompletas();
-    this.btntareasToggle = true;
-  }}
 
   resolverTarea(id: Tarea['id']) {
+
     this.tareasService.updateTarea(id, 'completado').then(async () => {
-      (await this.tareasService.filterByCompletas('pendiente')).subscribe((data: Tarea[]) => {
-        this.getTareas = data;
-        
-      });
+
+      this.verTareasPendientes();
+      this.verTareasCompletas();
 
     }
     );
   }
-  async delete(id: Tarea['id']) {
+
+  async deleteMiasCompletas(id: Tarea['id']) {
 
     if (confirm("Seguro desea eliminar la tarea?") == true) {
 
-    this.tareasService.deleteTarea(id).then(async () => {
-      (await this.tareasService.filterByCompletas('pendiente')).subscribe((data: Tarea[]) => {
-        this.getTareas = data;
-      });
-    }
+      this.tareasService.deleteTarea(id).then(async () => {
+        this.verTareasPendientes();
+        this.verTareasCompletas();
+      }
 
-    );
-  }else{
-    alert('Eliminacion cancelada');
-    (await this.tareasService.filterByCompletas('pendiente')).subscribe((data: Tarea[]) => {
-      this.getTareas = data;
-    });
+      );
+    } else {
+      alert('Eliminacion cancelada');
+      this.verTareasPendientes();
+      this.verTareasCompletas();
+    }
   }
-}
 
   ngOnInit(): void {
     this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
     this.name = this.rroute.snapshot.paramMap.get('user') + '@dnsffaa.gub.uy' ?? '';
     sessionStorage.setItem('nombre', this.nombreUser);
     sessionStorage.setItem('email', this.name);
+    this.verTareasPendientes();
+    this.verTareasCompletas();
   }
-  public async verTareasCompletas(){
-    this.btnResolver = true;
-  (await this.tareasService.filterByCompletas('completado')).subscribe((data: Tarea[]) => {
-    this.getTareas = data;
-  });
-}
-public async verTareasPendientes(){
-  this.btnResolver = false;
-  (await this.tareasService.filterByCompletas('pendiente')).subscribe((data: Tarea[]) => {
-    this.getTareas = data;
-  });
-}
 
 
-comentarTarea(id: Tarea['id']) {
+  public async verTareasCompletas() {
 
-  let text;
-  const tarea = this.getTareas.find((tarea) => tarea.id === id);
-  //text = tarea?.comentario;
-  let person = prompt("Ingresa el comentario:", text);
-  if (person == null || person == "") {
-    text = "User cancelled the prompt.";
-  } else {
-    person = person;
-    this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase()+" "+person).then( () => {
-      this.verTareasPendientes();
+    this.getTareasCompletas = await this.tareasService.filterByComplete();
 
+    if (this.getTareasCompletas.length > 0) {
+      this.cartelesTaskComplete = true;
+    } else {
+      this.cartelesTaskComplete = false;
+    }
   }
-  );
-}
-}
+
+  public async verTareasPendientes() {
+
+    this.getTareas = await this.tareasService.filterByPendientesAut();
+
+    if (this.getTareas.length > 0) {
+      this.cartelesTask = true;
+    } else {
+      this.cartelesTask = false;
+    }
+  }
+
+
+  comentarTarea(id: Tarea['id']) {
+
+    let text;
+
+    let person = prompt("Ingresa el comentario:", text);
+    if (person == null || person == "") {
+      text = "User cancelled the prompt.";
+    } else {
+      person = person;
+      this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase() + " " + person).then(() => {
+        this.verTareasPendientes();
+        this.verTareasCompletas();
+
+      }
+      );
+    }
+  }
 }

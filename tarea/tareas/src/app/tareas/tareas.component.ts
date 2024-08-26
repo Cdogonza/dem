@@ -18,17 +18,26 @@ import { NavtareasComponent } from '../navtareas/navtareas.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AuthguardService } from '../services/authguard.service';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [MatDialogModule,NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
+  imports: [AsyncPipe,MatDialogModule,NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
     MatTableModule, NgFor, RouterModule, RouterOutlet, MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatCardModule],
+
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
 })
 export class TareasComponent {
 
+  cartelesTask:boolean = false;
+  cartelTareas= 'No tienes Tareas Para Mostrar';
+  toggleLabel: string = 'Solo Pendientes';
+  toggleCheck: boolean = true;
+  btnResolver:boolean = true;
   admin: boolean;
   selected = 'Cap. Paz';
   EditarTarea: boolean;
@@ -38,13 +47,18 @@ export class TareasComponent {
   name = '';
   nombreUser = '';
   tarea = '';
-  getTareas: Tarea[] = [];
-  getTareasAsignadas: Tarea[] = [];
+  getTareas: any[] = [];
+  getTareasPendientes: any[] = [];
+  getTareasAsignadas: any[] = [];
+  taskPrueba: Observable<any[]> = new Observable<any[]>();
   btntareas = 'Tareas Completadas';
   leidoVar: boolean = true;
   currentDate: Date = new Date();
   tareasJefe:boolean;
-  constructor(public dialog: MatDialog,private rroute: ActivatedRoute, private tareasService: TareasService, private userService: UserService, private route: Router) {
+  constructor(public dialog: MatDialog,private rroute: ActivatedRoute, 
+    private tareasService: TareasService, private userService: UserService, 
+    private route: Router, private authguard: AuthguardService) {
+
     this.formulario = new FormGroup({
       nombre: new FormControl(),
       recordatorio: new FormControl(),
@@ -56,6 +70,19 @@ export class TareasComponent {
     this.name = sessionStorage.getItem('email') || '';
     this.admin = false;
   }
+
+
+  toggleCheckform() {
+    this.toggleCheck = !this.toggleCheck;
+    if(this.toggleCheck){
+      this.toggleLabel = 'Todas las tareas';
+    }else{
+      this.toggleLabel = 'Solo Pendientes';
+    }
+    this.todasLasTareasAsignadas();
+    
+}
+
   openFormDialog(): void {
     this.dialog.open(FormDialogComponent, {
       width: '50%', // Ajusta el tamaño según tus necesidades
@@ -72,27 +99,53 @@ export class TareasComponent {
     return `${day}-${month}-${year}`;
   }
   leido(id: Tarea['id']) {
+
     this.tareasService.editarLecturaComentario(id);
+    this.todasLasTareasAsignadas();
   }
+
   leidoflaso(id: Tarea['id']) {
+
     this.tareasService.editarLecturaComentarioFalso(id);
+    this.todasLasTareasAsignadas();
+    this.tareasPendientes();
   }
+
   delete(id: Tarea['id']) {
-    let text;
+
     if (confirm("Seguro desea eliminar la tarea?") == true) {
 
       this.tareasService.deleteTarea(id).then(() => {
 
         this.tareasPendientes();
+        this.todasLasTareasAsignadas();
+        this.tareasPendientes();
       }
       );
     } else {
       alert('Eliminacion cancelada');
+      this.todasLasTareasAsignadas();
+    }
+
+  }
+  deleteMiasCompletas(id: Tarea['id']) {
+
+    if (confirm("Seguro desea eliminar la tarea?") == true) {
+
+      this.tareasService.deleteTarea(id).then(() => {
+
+        this.tareasCompletadasMias();
+        this.tareasPendientes();
+      }
+      );
+    } else {
+      alert('Eliminacion cancelada');
+      this.tareasCompletadasMias();
+      this.tareasPendientes();
       this.tareasPendientes();
     }
 
   }
-
   AgregarTarea() {
 
     const tarea = this.formulario?.value;
@@ -114,7 +167,7 @@ export class TareasComponent {
     this.tareasService.addTarea(tareaFinal).then(() => {
       this.alerta();
       this.limpiar();
-      this.tareasPendientes();
+      this.todasLasTareasAsignadas();
 
     });
   }
@@ -126,27 +179,14 @@ export class TareasComponent {
     sessionStorage.setItem('email', this.name);
     this.todasLasTareasAsignadas();
 
+
   }
+
   checkUser() {
-    if (this.rroute.snapshot.paramMap.get('user') === 'gpaz' || this.rroute.snapshot.paramMap.get('user') === 'eclara') {
-      this.admin = true;
-      
-    }
-  }
-
-  public async tareasPendientes() {
-    (await this.tareasService.filterByCompletasMias('pendiente', this.name)).subscribe((data: Tarea[]) => {
-
-      this.getTareas = data;
+    this.authguard.isAdmin2().then((data) => {
+      this.admin = data;
     });
   }
-  public async tareasCompletadas() {
-    (await this.tareasService.filterByCompletasMias('completado', this.name)).subscribe((data: Tarea[]) => {
-
-      this.getTareas = data;
-    });
-  }
-
 
   obtenerUsuarios() {
     this.name = this.userService.getUser() || '';
@@ -158,24 +198,65 @@ export class TareasComponent {
 
   }
 
-  public async todasLasTareas() {
-    (await this.tareasService.getTasks(this.name)).subscribe((data: Tarea[]) => {
-      this.getTareas = data;
+  public async tareasPendientes() {
 
-    });
+
+      this.getTareasPendientes =  await this.tareasService.filterByCompletasMias('pendiente', this.name);
+      if(this.getTareasPendientes.length > 0){
+        this.cartelesTask = true;
+      }else{
+        this.cartelesTask = false;
+      }
+    
   }
-  public async todasLasTareasAsignadas() {
-    if (this.nombreUser === 'gpaz' || this.nombreUser === 'eclara') {
+  public async tareasCompletadas() {
+    this.getTareasPendientes =  await this.tareasService.filterByCompletasMias('completado', this.name);
+  }
 
-      (await this.tareasService.getTasksMias("Cap Paz")).subscribe((data: Tarea[]) => {
-        this.getTareasAsignadas = data;
-      });
+  public async tareasCompletadasMias() {
+    this.getTareas =  await this.tareasService.filterByCompletasMias('completado', this.name);
+    if(this.getTareas.length > 0){
+      this.cartelesTask = true;
+    }else{
+      this.cartelesTask = false;
+    }
+  }
+
+  public async todasLasTareasAsignadas() {
+
+    if(this.toggleCheck){
+
+    
+      if (this.nombreUser === 'gpaz') {
+
+        this.getTareasAsignadas = await this.tareasService.getTasksMiasPendientes("Cap Paz");
+  
+      } else {
+        if (this.nombreUser === 'eclara') {
+  
+         this.getTareasAsignadas = await this.tareasService.getTasksMiasPendientes("Tte Clara");
+        } else {
+          this.getTareasAsignadas = await this.tareasService.getTasksMiasPendientes(this.nombreUser);
+    }}
+    }else{
+ 
+    if (this.nombreUser === 'gpaz') {
+
+      this.getTareasAsignadas = await this.tareasService.getTasksMiasTodas("Cap Paz");
+
     } else {
-    (await this.tareasService.getTasksMias(this.nombreUser)).subscribe((data: Tarea[]) => {
-      this.getTareasAsignadas = data;
-      console.log(this.nombreUser);
-    });
-  }}
+      if (this.nombreUser === 'eclara') {
+
+       this.getTareasAsignadas = await this.tareasService.getTasksMiasTodas("Tte Clara");
+      } else {
+        this.getTareasAsignadas = await this.tareasService.getTasksMiasTodas(this.nombreUser);
+  }}}
+  if(this.getTareasAsignadas.length > 0){
+    this.cartelesTask = true;
+  }else{
+    this.cartelesTask = false;
+  }
+}
   // public async todasLasTareas() {
   //   (await this.tareasService.getTodasLasTareas(this.name)).subscribe((data: Tarea[]) => {
   //     this.getTareas = data;
@@ -183,6 +264,14 @@ export class TareasComponent {
   //   });
   // }
 
+  resolverTarea(id: Tarea['id']) {
+
+    this.tareasService.updateTarea(id, 'completado').then(async () => {
+      this.todasLasTareasAsignadas();
+
+    }
+    );
+  }
   btnCancelar() {
     this.EditarTarea = false;
     this.limpiar();
@@ -207,15 +296,21 @@ export class TareasComponent {
   }
 
   editarTarea(id: Tarea['id']) {
-    if (this.name === this.getTareas.find(tarea => tarea.id === id)?.user || this.name === 'gpaz' || this.name === 'eclara') {
-      this.formulario.setControl('recordatorio', new FormControl(this.getTareas.find(tarea => tarea.id === id)?.recordatorio));
+    
+    if (this.name === this.getTareasPendientes.find(tarea => tarea.idd === id)?.user) {
+      this.formulario.setControl('recordatorio', new FormControl(this.getTareasPendientes.find(tarea => tarea.idd === id)?.recordatorio));
       this.EditarTarea = true;
       this.idTareaEdicion = id;
-
+      this.changeTab('disabled');
     } else {
       alert('Solo puede editar tus tareas');
     }
 
+  }
+
+  changeTab(tabId: string) {
+    const triggerEl = document.querySelector(`#${tabId}-tab`) as HTMLElement;
+    triggerEl.click(); // Esto emula un click en el botón del tab
   }
   confirmarEdicionTarea() {
 
@@ -225,9 +320,13 @@ export class TareasComponent {
       return;
     }
     this.tareasService.editarTarea(this.idTareaEdicion, tarea?.recordatorio).then(() => {
+      this.todasLasTareasAsignadas();
       this.tareasPendientes();
       this.limpiar();
       this.EditarTarea = false;
+      alert('Tarea actualizada');
+      this.changeTab('home');
+      
     });
   }
   camboPas() {
@@ -241,14 +340,15 @@ export class TareasComponent {
   comentarTarea(id: Tarea['id']) {
     let dat = this.getCurrentDate();
     let text;
-    const tarea = this.getTareas.find((tarea) => tarea.id === id);
-    //text = tarea?.comentario;
+    const tarea = this.getTareasAsignadas.find((tarea) => tarea.idd === id);
+
     let person = prompt("Ingresa el comentario:", text);
     if (person == null || person == "") {
       text = "User cancelled the prompt.";
     } else {
       person = person;
-      this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase()+" "+person).then(() => {
+      this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase()+" "+person+" "+dat).then(() => {
+        this.todasLasTareasAsignadas();
         this.tareasPendientes();
 
     }

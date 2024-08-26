@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
 import { TareasComponent } from '../tareas/tareas.component';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-navtareas',
   standalone: true,
@@ -14,10 +15,30 @@ import { Router } from '@angular/router';
 export class NavtareasComponent {
 
   nombreUser = '';
+  nombre = '';
+  rol = '';
+  name= '';
 
-  constructor(private tareas: TareasComponent,private userService: UserService, private route: Router) {
+  constructor(private rroute: ActivatedRoute,private tareas: TareasComponent,private userService: UserService, private route: Router) {
     this.nombreUser = sessionStorage.getItem('nombre') || '';
+
   }
+
+  cargarNombreUsuario() {
+
+ this.userService.getUserByEmail(this.nombreUser)
+  .then((user) => {
+    this.nombre = user.nombre;
+    this.rol = user.rol;
+    console.log(this.nombre);
+  }
+  )
+  .catch((error) => {
+    console.log (error);
+  });
+  }
+  
+
   onclick(){ 
     this.userService.logout()
     .then(() => {
@@ -27,17 +48,21 @@ export class NavtareasComponent {
       console.log(error));
     }
 
-    verTareasCompletas(){
-      this.tareas.tareasCompletadas();
-    }
-    verTareasPendientes(){
-    this.tareas.tareasPendientes();
-  }
-  verTodasTareas(){
-    this.tareas.todasLasTareas();
-  }
+  //   verTareasCompletas(){
+  //     this.tareas.tareasCompletadas();
+  //   }
+  //   verTareasPendientes(){
+  //   this.tareas.tareasPendientes();
+  // }
+  // verTodasTareas(){
+  //   this.tareas.todasLasTareas();
+  // }
   ngOnInit(){
-    this.verTareasPendientes();
-    
+    // this.verTareasPendientes();
+    this.cargarNombreUsuario();
+    this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
+    this.name = this.rroute.snapshot.paramMap.get('user') + '@dnsffaa.gub.uy' ?? '';
+    sessionStorage.setItem('nombre', this.nombreUser);
+    sessionStorage.setItem('email', this.name);
   }
 }

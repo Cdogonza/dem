@@ -29,7 +29,7 @@ const nombreUser = sessionStorage.getItem('nombre')||'';
   //   return false;
   // }
   
-if(authservice.checkEmailMatch()){
+if(await authservice.isAdmin()){
   console.log('es admin');
   return true;
 }else{

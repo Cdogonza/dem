@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCardModule} from '@angular/material/card';
 import { NgIf } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -21,6 +21,7 @@ export class RegisterComponent {
   error: string = 'Algo Salio mal';
 
   constructor(
+    private router:Router,
     private UserService: UserService
   ) { 
     this.form = new FormGroup({
@@ -29,10 +30,7 @@ export class RegisterComponent {
     });
   }
   getUser(){
-    const user = this.UserService.getUserName();
-    if (user) {
-      this.UserService.goToTareas(user);
-    }
+    this.router.navigate(['/administrador', this.UserService.getUserName()]);
   }
   onSubmit() {
     
@@ -53,7 +51,7 @@ export class RegisterComponent {
     this.form?.reset();
   }
   goToLogin() {
-    this.UserService.goToLogin();
+    this.router.navigate(['/administrador', this.UserService.getUserName()]);
     
   }
   

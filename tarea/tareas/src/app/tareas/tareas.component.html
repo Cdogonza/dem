@@ -2,71 +2,11 @@
 
 
 <div style="margin-top: 70px;" class="container ">
-
-  <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="bos-tab" data-bs-toggle="tab" data-bs-target="#bos-tab-pane" type="button" role="tab" aria-controls="bos-tab-pane" aria-selected="true">Tareas Asignadas Por Jefatura</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="pendientes-tab" data-bs-toggle="tab" data-bs-target="#pendientes-tab-pane" type="button" role="tab" aria-controls="pendientes-tab-pane" aria-selected="true">Mis Tareas Pendientes</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Mis Tareas Completadas</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="completas-tab" data-bs-toggle="tab" data-bs-target="#completas-tab-pane" type="button" role="tab" aria-controls="completas-tab-pane" aria-selected="false">Nueva Tarea</button>
-    </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-
-    <div class="tab-pane fade show active" id="bos-tab-pane" role="tabpanel" aria-labelledby="bos-tab" tabindex="0">
-      ...
-    </div>
-    <div class="tab-pane fade" id="pendientes-tab-pane" role="tabpanel" aria-labelledby="pendientes-tab" tabindex="1">
-      <div id="cards" class="card mb-3" [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"*ngFor="let item of getTareas">
-        <div class="card-body" style= "background-color: #ffffffd7; border-radius: 10px;">
-        <div class="card-header" style= "background-color: #ffffffd7;">
-          
-          <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
-          <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
-        <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
-        <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
-        </div>
-        <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
-        <div class="card-footer" style= "background-color: #ffffffd7;">
-          
-          <p class="card-text" style= "background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO DE: </b>{{cmd}}</p>
-        
-          <button mat-icon-button (click)="editarTarea(item.id)" >
-            <span class="material-icons md-15 orange500 ">edit</span>
-          </button>
-          <button  mat-icon-button (click)="delete(item.id)" >
-            <span class="material-icons md-15 orange500 ">delete</span>
-          </button>
-          <button *ngIf="item.comentario && item.coment"  mat-icon-button (click)="leido(item.id)" >
-            <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-              notifications_off
-              </span></span>
-          </button>
-          <button *ngIf="item.comentario && !item.coment"  mat-icon-button (click)="leidoflaso(item.id)" >
-            <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-              notifications_on
-              </span></span>
-          </button>
-          <button  mat-icon-button (click)="comentarTarea(item.id)" >
-            <span class="material-icons md-15 orange500 ">add</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-    <div class="tab-pane fade" id="completas-tab-pane" role="tabpanel" aria-labelledby="completas-tab" tabindex="2">...</div>
-    <div class="tab-pane fade" id="nueva-tab-pane" role="tabpanel" aria-labelledby="nueva-tab" tabindex="3">...</div>
-  </div> -->
+ 
 
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
+      <button (click)="todasLasTareasAsignadas()" class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
         role="tab" aria-controls="home-tab-pane" aria-selected="true">Tareas Asignadas Por Jefatura</button>
     </li>
     <li class="nav-item" role="presentation">
@@ -74,7 +14,7 @@
         role="tab" aria-controls="profile-tab-pane" aria-selected="false">Mis Tareas Pendientes</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button (click)="tareasCompletadas()" class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button"
+      <button (click)="tareasCompletadasMias()" class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button"
         role="tab" aria-controls="contact-tab-pane" aria-selected="false">Mis Tareas Completadas</button>
     </li>
     <li class="nav-item" role="presentation">
@@ -82,15 +22,22 @@
         role="tab" aria-controls="disabled-tab-pane" aria-selected="false">Nueva Tarea</button>
     </li>
   </ul>
+  <!-- ASIGNADAS POR JEFATURA -->
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+      <div style="margin-top: 5px;"  class="form-check form-switch">
+        <input (click)="toggleCheckform()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked>
+        <label class="form-check-label" for="flexSwitchCheckDefault">Solo Pendientes</label>  
+      </div>
+      <div *ngIf="!cartelesTask"><h2>No tienes tareas para mostrar!</h2></div>
       <div id="cards" class="card mb-3"
         [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"
         *ngFor="let item of getTareasAsignadas">
         <div class="card-body" style="background-color: #ffffffd7; border-radius: 10px;">
           <div class="card-header" style="background-color: #ffffffd7;">
 
-            <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
+            <!-- <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end"> -->
             <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
             <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
             <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
@@ -100,38 +47,40 @@
 
             <p class="card-text" style="background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO
                 DE: </b>{{cmd}}</p>
-
-            <button mat-icon-button (click)="editarTarea(item.id)">
-              <span class="material-icons md-15 orange500 ">edit</span>
-            </button>
-            <button mat-icon-button (click)="delete(item.id)">
+                <button *ngIf="(item.estado == 'pendiente')" href="#arriba" mat-icon-button (click)="resolverTarea(item.idd)" >
+                  <span class="material-icons md-15 orange500 ">done</span>
+                </button>
+            
+            <button mat-icon-button (click)="delete(item.idd)">
               <span class="material-icons md-15 orange500 ">delete</span>
             </button>
-            <button *ngIf="item.comentario && item.coment" mat-icon-button (click)="leido(item.id)">
+            <!-- <button *ngIf="item.comentario && item.coment" mat-icon-button (click)="leido(item.idd)">
               <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
                   notifications_off
                 </span></span>
             </button>
-            <button *ngIf="item.comentario && !item.coment" mat-icon-button (click)="leidoflaso(item.id)">
+            <button  *ngIf="item.comentario && !item.coment && (item.estado == 'pendiente')" mat-icon-button (click)="leidoflaso(item.idd)">
               <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
                   notifications_on
                 </span></span>
-            </button>
-            <button mat-icon-button (click)="comentarTarea(item.id)">
+            </button> -->
+            <button *ngIf="(item.estado == 'pendiente')" mat-icon-button (click)="comentarTarea(item.idd)">
               <span class="material-icons md-15 orange500 ">add</span>
             </button>
           </div>
         </div>
       </div>
     </div>
+    <!-- MIS TAREAS -->
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+      <div *ngIf="!cartelesTask"><h2>No tienes tareas para mostrar!</h2></div>
       <div id="cards" class="card mb-3"
         [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"
-        *ngFor="let item of getTareas">
+        *ngFor="let item of getTareasPendientes">
         <div class="card-body" style="background-color: #ffffffd7; border-radius: 10px;">
           <div class="card-header" style="background-color: #ffffffd7;">
 
-            <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
+            <!-- <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end"> -->
             <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
             <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
             <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
@@ -142,30 +91,32 @@
             <p class="card-text" style="background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO
                 DE: </b>{{cmd}}</p>
 
-            <button mat-icon-button (click)="editarTarea(item.id)">
+            <button mat-icon-button (click)="editarTarea(item.idd)">
               <span class="material-icons md-15 orange500 ">edit</span>
             </button>
-            <button mat-icon-button (click)="delete(item.id)">
+            <button mat-icon-button (click)="deleteMiasCompletas(item.idd)">
               <span class="material-icons md-15 orange500 ">delete</span>
             </button>
-            <button *ngIf="item.comentario && item.coment" mat-icon-button (click)="leido(item.id)">
+            <!-- <button *ngIf="item.comentario && item.coment" mat-icon-button (click)="leido(item.idd)">
               <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
                   notifications_off
                 </span></span>
             </button>
-            <button *ngIf="item.comentario && !item.coment" mat-icon-button (click)="leidoflaso(item.id)">
+            <button *ngIf="item.comentario && !item.coment" mat-icon-button (click)="leidoflaso(item.idd)">
               <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
                   notifications_on
                 </span></span>
-            </button>
-            <button mat-icon-button (click)="comentarTarea(item.id)">
+            </button> -->
+            <button mat-icon-button (click)="comentarTarea(item.idd)">
               <span class="material-icons md-15 orange500 ">add</span>
             </button>
           </div>
         </div>
       </div>
     </div>
+    <!-- MIS TAREAS COMPLETADAS -->
     <div  class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+      <div *ngIf="!cartelesTask"><h2>No tienes tareas para mostrar!</h2></div>
       <div id="cards" class="card mb-3"
         [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"
         *ngFor="let item of getTareas">
@@ -183,36 +134,21 @@
             <p class="card-text" style="background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO
                 DE: </b>{{cmd}}</p>
 
-            <button mat-icon-button (click)="editarTarea(item.id)">
-              <span class="material-icons md-15 orange500 ">edit</span>
-            </button>
-            <button mat-icon-button (click)="delete(item.id)">
+            <button mat-icon-button (click)="deleteMiasCompletas(item.idd)">
               <span class="material-icons md-15 orange500 ">delete</span>
-            </button>
-            <button *ngIf="item.comentario && item.coment" mat-icon-button (click)="leido(item.id)">
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                  notifications_off
-                </span></span>
-            </button>
-            <button *ngIf="item.comentario && !item.coment" mat-icon-button (click)="leidoflaso(item.id)">
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                  notifications_on
-                </span></span>
-            </button>
-            <button mat-icon-button (click)="comentarTarea(item.id)">
-              <span class="material-icons md-15 orange500 ">add</span>
             </button>
           </div>
         </div>
       </div>
     </div>
+    <!-- FORMULARIO -->
     <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
       <form novalidate [formGroup]="formulario">
 
         <h1 name="arriba">Agregar tarea</h1>
         <h3>{{getCurrentDate()}}</h3>
         <mat-form-field id="nombreDesactivado">
-          <input id="inputDesactivado" matInput type="text" formControlName="nombre">{{nombreUser}}</mat-form-field>
+          <input  id="inputDesactivado" matInput type="text" formControlName="nombre">{{nombreUser}}</mat-form-field>
         <mat-form-field *ngIf="admin">
           <mat-label >Para quien es la Tarea</mat-label>
           <mat-select [(value)]="selected" formControlName="jefe">
@@ -250,8 +186,8 @@
         </mat-form-field>
         <div>
           <button id="btnFormularios1" *ngIf="!EditarTarea" mat-flat-button (click)="AgregarTarea()">ENVIAR</button>
-          <!-- <button id="btnFormularios2" *ngIf="EditarTarea" mat-flat-button (click)="confirmarEdicionTarea()">EDITAR</button>
-        <button id="btnFormularios3" *ngIf="EditarTarea" mat-flat-button (click)="btnCancelar()">CANCELAR</button> -->
+          <button id="btnFormularios2" *ngIf="EditarTarea" mat-flat-button (click)="confirmarEdicionTarea()">EDITAR</button>
+        <button id="btnFormularios3" *ngIf="EditarTarea" mat-flat-button (click)="btnCancelar()">CANCELAR</button>
         </div>
 
 
@@ -259,110 +195,5 @@
 
     </div>
   </div>
-  <!-- <div class="row ">
-    <div class="col-5">
-      <h2 style="text-align: center;">Lista de Tareas Asignadas por Jefatura</h2>
-      <div *ngIf="!tareasJefe">
-        <h2 style="text-align: center;">No tienes tareas de Jefatura</h2>
-      </div>
-      <div id="cards" class="card mb-3" [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"*ngFor="let item of getTareasAsignadas">
-        <div class="card-body" style= "background-color: #ffffffd7; border-radius: 10px;">
-          <div class="card-header" style= "background-color: #ffffffd7;">
-            
-            <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
-            <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
-          <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
-          <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
-          </div>
-          <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
-          <div class="card-footer" style= "background-color: #ffffffd7;">
-            
-            <p class="card-text" style= "background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO DE: </b>{{cmd}}</p>
-          
-            <button mat-icon-button (click)="editarTarea(item.id)" >
-              <span class="material-icons md-15 orange500 ">edit</span>
-            </button>
-            <button  mat-icon-button (click)="delete(item.id)" >
-              <span class="material-icons md-15 orange500 ">delete</span>
-            </button>
-            <button *ngIf="item.comentario && item.coment"  mat-icon-button (click)="leido(item.id)" >
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                notifications_off
-                </span></span>
-            </button>
-            <button *ngIf="item.comentario && !item.coment"  mat-icon-button (click)="leidoflaso(item.id)" >
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                notifications_on
-                </span></span>
-            </button>
-            <button  mat-icon-button (click)="comentarTarea(item.id)" >
-              <span class="material-icons md-15 orange500 ">add</span>
-            </button>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="col-7">
-      <div class="container text-center">
-        <div class="row ">
-          <div  class="col">
-          
-          </div>
-          <div style=" text-align: end;" class="col-2">
-            <button class="floatButton" mat-fab color="primary" (click)="openFormDialog()">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-          <div  class="col-2">
-            <h2 style="text-align: center;">Mis Tareas</h2>
-          </div>
-          <div  class="col">
-          
-          </div>
-        </div>
-      </div>
-      
-      
-      <div id="cards" class="card mb-3" [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"*ngFor="let item of getTareas">
-        <div class="card-body" style= "background-color: #ffffffd7; border-radius: 10px;">
-          <div class="card-header" style= "background-color: #ffffffd7;">
-            
-            <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end">
-            <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
-          <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
-          <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
-          </div>
-          <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
-          <div class="card-footer" style= "background-color: #ffffffd7;">
-            
-            <p class="card-text" style= "background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO DE: </b>{{cmd}}</p>
-          
-            <button mat-icon-button (click)="editarTarea(item.id)" >
-              <span class="material-icons md-15 orange500 ">edit</span>
-            </button>
-            <button  mat-icon-button (click)="delete(item.id)" >
-              <span class="material-icons md-15 orange500 ">delete</span>
-            </button>
-            <button *ngIf="item.comentario && item.coment"  mat-icon-button (click)="leido(item.id)" >
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                notifications_off
-                </span></span>
-            </button>
-            <button *ngIf="item.comentario && !item.coment"  mat-icon-button (click)="leidoflaso(item.id)" >
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                notifications_on
-                </span></span>
-            </button>
-            <button  mat-icon-button (click)="comentarTarea(item.id)" >
-              <span class="material-icons md-15 orange500 ">add</span>
-            </button>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-
-  </div> -->
 
 </div>

@@ -40,18 +40,31 @@ async filterBy(categoriaToFilter: string) {
 //   return await collectionData(query(ref, where('estado', '==', categoriaToFilter), where('user','==',user)), {idField: 'id'}) as Observable<Tarea[]>;
 // }
 
-async filterByCompletasMias(categoriaToFilter: string, user: string): Promise<Observable<any[]>> {
+
+
+// async filterByCompletasMias(categoriaToFilter: string, user: string): Promise<Observable<any[]>> {
+//   const tasksCollection = collection(this.firestore, 'tareas');
+//   const q = query(tasksCollection,where('user','==',user),where('estado', '==', categoriaToFilter), orderBy('fecha', 'desc'));
+//   const querySnapshot = await getDocs(q);
+//   const tasks = querySnapshot.docs.map(doc => {
+//     const data = doc.data();
+//     const id = doc.id;
+//     return { id, ...data };
+//   });
+//   return new Observable(observer => {
+//     observer.next(tasks);
+//   });
+// }
+async filterByCompletasMias(categoriaToFilter: string, user: string): Promise<any[]> {
   const tasksCollection = collection(this.firestore, 'tareas');
   const q = query(tasksCollection,where('user','==',user),where('estado', '==', categoriaToFilter), orderBy('fecha', 'desc'));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
-    const id = doc.id;
-    return { id, ...data };
+    const idd = doc.id;
+    return { idd, ...data };
   });
-  return new Observable(observer => {
-    observer.next(tasks);
-  });
+  return tasks;
 }
 async filterByCompletas(categoriaToFilter: string): Promise<Observable<any[]>> {
   const tasksCollection = collection(this.firestore, 'tareas');
@@ -81,30 +94,42 @@ async getTasks(user: string): Promise<Observable<any[]>> {
     observer.next(tasks);
   });
 }
-async getTasksMias(user: string): Promise<Observable<any[]>> {
+async getTasksMiasTodas(user: string): Promise<any[]> {
   const tasksCollection = collection(this.firestore, 'tareas');
   const q = query(tasksCollection,where('jefe','==',user), orderBy('fecha', 'desc'));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
-    const id = doc.id;
-    return { id, ...data };
+    const idd = doc.id;
+    return { idd, ...data };
   });
-  return new Observable(observer => {
-    observer.next(tasks);
-  });
+  return tasks;
 }
-
+async getTasksMiasPendientes(user: string): Promise<any[]> {
+  const tasksCollection = collection(this.firestore, 'tareas');
+  const q = query(tasksCollection,where('jefe','==',user),where('estado','==','pendiente'), orderBy('fecha', 'desc'));
+  const querySnapshot = await getDocs(q);
+  const tasks = querySnapshot.docs.map(doc => {
+    const data = doc.data();
+    const idd = doc.id;
+    return { idd, ...data };
+  });
+  return tasks;
+}
 //borrar tarea
 async deleteTarea(id: Tarea['id']) {
   const ref = doc(this.firestore, 'tareas', id);
   return await deleteDoc(ref);
 }
 
-
+getIDDocumento() {
+  const id = doc(this.firestore, 'tareas');
+  return id.id;
+}
 
 //cambiar el estado de pendiente a completado
 async updateTarea(id: Tarea['id'], estado: Tarea['estado']) {
+  console.log(id);
   const ref = doc(this.firestore, 'tareas', id);
   return await updateDoc(ref, {estado});
 
@@ -139,5 +164,29 @@ filterByUser(categoriaToFilter: string) {
   return collectionData(query(ref, where('user', '==', categoriaToFilter)), {idField: 'id'}) as Observable<Tarea[]>;
 }
 
+// METODOS PANTALLA ADMINISTRADOR
+
+async filterByPendientesAut(): Promise<any[]> {
+  const tasksCollection = collection(this.firestore, 'tareas');
+  const q = query(tasksCollection,where('estado', '==', 'pendiente'), orderBy('fecha', 'desc'));
+  const querySnapshot = await getDocs(q);
+  const tasks = querySnapshot.docs.map(doc => {
+    const data = doc.data();
+    const idd = doc.id;
+    return { idd, ...data };
+  });
+  return tasks;
+}
+async filterByComplete(): Promise<any[]> {
+  const tasksCollection = collection(this.firestore, 'tareas');
+  const q = query(tasksCollection,where('estado', '==', 'completado'), orderBy('fecha', 'desc'));
+  const querySnapshot = await getDocs(q);
+  const tasks = querySnapshot.docs.map(doc => {
+    const data = doc.data();
+    const idd = doc.id;
+    return { idd, ...data };
+  });
+  return tasks;
+}
 
 }

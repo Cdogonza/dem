@@ -18,11 +18,12 @@ import { Inject } from '@angular/core';
 
 export class AuthguardService {
 
-
+admin : boolean;
   nombreUser = sessionStorage.getItem('nombre')||'';
 
   us = this.auth.currentUser?.email;
   constructor(private auth: Auth, private firestore: Firestore, private userService: UserService) {
+    this.admin = false;
   }
 
 
@@ -35,6 +36,32 @@ export class AuthguardService {
       return false;
     }
    }
+
+
+  //chequear si el rol es jefatura y que devuelva un booleano
+    async isAdmin(){
+      const user = await this.userService.getUserByEmail(this.nombreUser);
+      if(user.rol == 'jefatura'){
+        this.admin = true;
+        
+      }else{
+        this.admin = false;
+        alert('No tiene permisos para acceder a esta pagina');
+      }
+      return this.admin;
+    }
+    async isAdmin2(){
+      const user = await this.userService.getUserByEmail(this.nombreUser);
+      if(user.rol == 'jefatura'){
+        this.admin = true;
+        
+      }else{
+        this.admin = false;
+       
+      }
+      return this.admin;
+    }
+
 }
 
 

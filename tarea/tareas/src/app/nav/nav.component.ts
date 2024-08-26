@@ -15,11 +15,25 @@ import { AdministradorComponent } from '../administrador/administrador.component
 export class NavComponent {
 
   nombreUser='';
+  nombre = '';
+  rol = '';
 
   constructor(private admin:AdministradorComponent,private userService: UserService, private route: Router) {
     this.nombreUser = sessionStorage.getItem('nombre')||'';
    }
    
+   cargarNombreUsuario() {
+
+    this.userService.getUserByEmail(this.nombreUser)
+     .then((user) => {
+       this.nombre = user.nombre;
+       this.rol = user.rol;
+     }
+     )
+     .catch((error) => {
+       console.log (error);
+     });
+     }
   onclick(){ 
     this.userService.logout()
     .then(() => {
@@ -29,14 +43,9 @@ export class NavComponent {
       console.log(error));
     }
 
-    verTareasCompletas(){
-      this.admin.verTareasCompletas();
-    }
-    verTareasPendientes(){
-    this.admin.verTareasPendientes();
-  }
   ngOnInit(): void {
    
-    this.verTareasPendientes();
+    this.cargarNombreUsuario();
+
   }
 }
