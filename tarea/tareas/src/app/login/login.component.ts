@@ -6,7 +6,8 @@ import {MatCardModule} from '@angular/material/card';
 import { NgIf } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { UserService } from '../services/user.service';
-
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 @Component({
   selector: 'app-login',
@@ -32,19 +33,22 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    
+    Loading.standard('Cargando...');
     const email = this.form.value;
     const pass = email.password;
     const emailCompleto = email.email + '@dnsffaa.gub.uy';
     this.UserService.login(emailCompleto.toLowerCase(),pass, email.email.toLowerCase())
       .then(() => {
-        
+        Loading.remove(2000);
+        Notify.success('Bienvenido');
         this.goToTareas(email.email.toLowerCase());
         
         this.limpiar();
       
       })
       .catch((error) => {
+        Notify.failure('Credenciales incorrectas');
+        Loading.remove(2000);
         console.log(error);
         this.error = error.message;
       });

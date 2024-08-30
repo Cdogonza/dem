@@ -21,12 +21,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AuthguardService } from '../services/authguard.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
   imports: [AsyncPipe,MatDialogModule,NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
-    MatTableModule, NgFor, RouterModule, RouterOutlet, MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatCardModule],
+      MatTableModule, NgFor, RouterModule, RouterOutlet, MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatCardModule],
 
   templateUrl: './tareas.component.html',
   styleUrl: './tareas.component.css'
@@ -55,7 +58,7 @@ export class TareasComponent {
   leidoVar: boolean = true;
   currentDate: Date = new Date();
   tareasJefe:boolean;
-  constructor(public dialog: MatDialog,private rroute: ActivatedRoute, 
+  constructor( public dialog: MatDialog,private rroute: ActivatedRoute, 
     private tareasService: TareasService, private userService: UserService, 
     private route: Router, private authguard: AuthguardService) {
 
@@ -113,37 +116,57 @@ export class TareasComponent {
 
   delete(id: Tarea['id']) {
 
-    if (confirm("Seguro desea eliminar la tarea?") == true) {
-
-      this.tareasService.deleteTarea(id).then(() => {
-
-        this.tareasPendientes();
+    Confirm.show(
+      'Eliminar tarea?',
+      '',
+      'Si',
+      'No',
+      () => {
+        this.tareasService.deleteTarea(id).then(() => {
+          Notify.success('Tarea eliminada');
+          this.tareasPendientes();
+          this.todasLasTareasAsignadas();
+          this.tareasPendientes();
+        }
+        );
+      },
+      () => {
+        Notify.failure('Eliminacion cancelada');
         this.todasLasTareasAsignadas();
-        this.tareasPendientes();
-      }
+      },
+      {
+      },
       );
-    } else {
-      alert('Eliminacion cancelada');
-      this.todasLasTareasAsignadas();
-    }
+    
 
   }
   deleteMiasCompletas(id: Tarea['id']) {
 
-    if (confirm("Seguro desea eliminar la tarea?") == true) {
+    Confirm.show(
+      'Eliminar tarea?',
+      '',
+      'Si',
+      'No',
+      () => {
+        this.tareasService.deleteTarea(id).then(() => {
 
-      this.tareasService.deleteTarea(id).then(() => {
-
+          this.tareasCompletadasMias();
+          this.tareasPendientes();
+        }
+        
+        );
+        Notify.success('Tarea eliminada');
+      },
+      () => {
+        Notify.failure('Eliminacion cancelada');
         this.tareasCompletadasMias();
         this.tareasPendientes();
-      }
+        this.tareasPendientes();
+      },
+      {
+      },
       );
-    } else {
-      alert('Eliminacion cancelada');
-      this.tareasCompletadasMias();
-      this.tareasPendientes();
-      this.tareasPendientes();
-    }
+
 
   }
   AgregarTarea() {
@@ -153,6 +176,7 @@ export class TareasComponent {
       alert('Debes completar todos los campos');
       return;
     }
+    Loading.standard('Cargando...');
     const tareaFinal: Tarea = {
       id: '',
       nombre: this.nombreUser,
@@ -165,11 +189,16 @@ export class TareasComponent {
       fecha: this.getCurrentDate()
     }
     this.tareasService.addTarea(tareaFinal).then(() => {
-      this.alerta();
+      
+
       this.limpiar();
       this.todasLasTareasAsignadas();
+      
+      Loading.remove(2000);
+      Notify.success('Tarea añadida');
 
     });
+    
   }
 
   ngOnInit(): void {
