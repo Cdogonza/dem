@@ -24,11 +24,12 @@ import { AsyncPipe } from '@angular/common';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+import { HttpClientModule,HttpClient  } from '@angular/common/http';
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [AsyncPipe,MatDialogModule,NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
+  imports: [HttpClientModule,AsyncPipe,MatDialogModule,NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
       MatTableModule, NgFor, RouterModule, RouterOutlet, MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatCardModule],
 
   templateUrl: './tareas.component.html',
@@ -58,7 +59,9 @@ export class TareasComponent {
   leidoVar: boolean = true;
   currentDate: Date = new Date();
   tareasJefe:boolean;
-  constructor( public dialog: MatDialog,private rroute: ActivatedRoute, 
+  userCorreo: string = '';
+
+  constructor(public http:HttpClient, public dialog: MatDialog,private rroute: ActivatedRoute, 
     private tareasService: TareasService, private userService: UserService, 
     private route: Router, private authguard: AuthguardService) {
 
@@ -74,7 +77,20 @@ export class TareasComponent {
     this.admin = false;
   }
 
+enviarEmail(user: string) {
 
+
+  let params = {
+    correo: user,
+    asunto: 'Tarea Pendiente',
+    mensaje: 'Jefatura te asigno una tarea en la plataforma de tareas, por favor revisa la app para mas detalles'
+  }
+  this.http.post('http://localhost:3000/enviar',params).subscribe((data) => {
+    console.log(data);
+  });
+
+
+}
   toggleCheckform() {
     this.toggleCheck = !this.toggleCheck;
     if(this.toggleCheck){
@@ -191,9 +207,21 @@ export class TareasComponent {
     this.tareasService.addTarea(tareaFinal).then(() => {
       
 
+      if(tareaFinal.jefe === 'Cap Paz'){
+        this.userCorreo = 'gpaz@dnsffaa.gub.uy';
+  
+      }else
+      if(tareaFinal.jefe === 'Tte. Clara'){
+        this.userCorreo = 'eclara@dnsffaa.gub.uy';
+      }else{
+        this.userCorreo = tareaFinal.jefe+'@dnsffaa.gub.uy';
+      
+      }
       this.limpiar();
       this.todasLasTareasAsignadas();
-      
+
+      this.enviarEmail(this.userCorreo);
+
       Loading.remove(2000);
       Notify.success('Tarea añadida');
 

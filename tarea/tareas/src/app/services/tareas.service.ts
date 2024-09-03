@@ -57,7 +57,7 @@ async filterBy(categoriaToFilter: string) {
 // }
 async filterByCompletasMias(categoriaToFilter: string, user: string): Promise<any[]> {
   const tasksCollection = collection(this.firestore, 'tareas');
-  const q = query(tasksCollection,where('user','==',user),where('estado', '==', categoriaToFilter), orderBy('fecha', 'desc'));
+  const q = query(tasksCollection,where('user','==',user),where('estado', '==', categoriaToFilter), orderBy('fecha', 'asc'));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
@@ -68,7 +68,7 @@ async filterByCompletasMias(categoriaToFilter: string, user: string): Promise<an
 }
 async filterByCompletas(categoriaToFilter: string): Promise<Observable<any[]>> {
   const tasksCollection = collection(this.firestore, 'tareas');
-  const q = query(tasksCollection,where('estado', '==', categoriaToFilter), orderBy('fecha', 'desc'));
+  const q = query(tasksCollection,where('estado', '==', categoriaToFilter), orderBy('fecha', 'asc'));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
@@ -83,7 +83,7 @@ async filterByCompletas(categoriaToFilter: string): Promise<Observable<any[]>> {
 
 async getTasks(user: string): Promise<Observable<any[]>> {
   const tasksCollection = collection(this.firestore, 'tareas');
-  const q = query(tasksCollection,where('user','==',user), orderBy('fecha', 'desc'));
+  const q = query(tasksCollection,where('user','==',user), orderBy('fecha', 'asc'));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
@@ -96,7 +96,7 @@ async getTasks(user: string): Promise<Observable<any[]>> {
 }
 async getTasksMiasTodas(user: string): Promise<any[]> {
   const tasksCollection = collection(this.firestore, 'tareas');
-  const q = query(tasksCollection,where('jefe','==',user), orderBy('fecha', 'desc'));
+  const q = query(tasksCollection,where('jefe','==',user), orderBy('fecha', 'asc'));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
@@ -107,7 +107,18 @@ async getTasksMiasTodas(user: string): Promise<any[]> {
 }
 async getTasksMiasPendientes(user: string): Promise<any[]> {
   const tasksCollection = collection(this.firestore, 'tareas');
-  const q = query(tasksCollection,where('jefe','==',user),where('estado','==','pendiente'), orderBy('fecha', 'desc'));
+  const q = query(tasksCollection,where('jefe','==',user),where('estado','==','pendiente'), orderBy('fecha', 'asc'));
+  const querySnapshot = await getDocs(q);
+  const tasks = querySnapshot.docs.map(doc => {
+    const data = doc.data();
+    const idd = doc.id;
+    return { idd, ...data };
+  });
+  return tasks;
+}
+async getUserTask(user: string): Promise<any[]> {
+  const tasksCollection = collection(this.firestore, 'tareas');
+  const q = query(tasksCollection,where('jefe','==',user));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
@@ -168,7 +179,7 @@ filterByUser(categoriaToFilter: string) {
 
 async filterByPendientesAut(): Promise<any[]> {
   const tasksCollection = collection(this.firestore, 'tareas');
-  const q = query(tasksCollection,where('estado', '==', 'pendiente'), orderBy('fecha', 'desc'));
+  const q = query(tasksCollection,where('estado', '==', 'pendiente'), orderBy('fecha', 'asc'));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
@@ -179,7 +190,7 @@ async filterByPendientesAut(): Promise<any[]> {
 }
 async filterByComplete(): Promise<any[]> {
   const tasksCollection = collection(this.firestore, 'tareas');
-  const q = query(tasksCollection,where('estado', '==', 'completado'), orderBy('fecha', 'desc'));
+  const q = query(tasksCollection,where('estado', '==', 'completado'), orderBy('fecha', 'asc'));
   const querySnapshot = await getDocs(q);
   const tasks = querySnapshot.docs.map(doc => {
     const data = doc.data();
