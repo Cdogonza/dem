@@ -86,6 +86,7 @@ enviarEmail(user: string) {
     mensaje: 'Jefatura te asigno una tarea en la plataforma de tareas, por favor revisa la app para mas detalles'
   }
   this.http.post('https://dem-back-dxaxrom6b-gonzas-projects-6adf3ca6.vercel.app/enviar',params).subscribe((data) => {
+    // this.http.post('http://localhost:3000/enviar',params).subscribe((data) => {
     console.log(data);
   });
 
