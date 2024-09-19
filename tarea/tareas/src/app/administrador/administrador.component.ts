@@ -16,10 +16,12 @@ import { MatDialogContent } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import { MatDialogClose } from '@angular/material/dialog';
 import { NavComponent } from '../nav/nav.component';
+import { HttpClientModule,HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-administrador',
   standalone: true,
   imports: [
+    HttpClientModule,
     NgStyle,
     NavComponent,
     NgFor,
@@ -42,15 +44,14 @@ import { NavComponent } from '../nav/nav.component';
   styleUrl: './administrador.component.css'
 })
 export class AdministradorComponent {
-  openDialog() {
-    throw new Error('Method not implemented.');
-  }
+
+  
 
   btnResolver: boolean = true;
-
+  currentDate: Date = new Date();
   getTareas: any[] = [];
   getTareasCompletas: any[] = [];
-
+  userCorreo: string = '';
   cartelesTask: boolean = false;
   cartelesTaskComplete: boolean = false;
   cartelTareas = 'No tienes Tareas Para Mostrar';
@@ -59,7 +60,7 @@ export class AdministradorComponent {
   btntareasToggle = false;
   name = '';
 
-  constructor(private tareasService: TareasService, private UserService: UserService,
+  constructor(public http:HttpClient,private tareasService: TareasService, private UserService: UserService,
     public dialog: MatDialog, private rroute: ActivatedRoute) {
 
     this.nombreUser = sessionStorage.getItem('nombre') || '';
@@ -101,7 +102,7 @@ export class AdministradorComponent {
     sessionStorage.setItem('nombre', this.nombreUser);
     sessionStorage.setItem('email', this.name);
     this.verTareasPendientes();
-    this.verTareasCompletas();
+
   }
 
 
@@ -127,19 +128,59 @@ export class AdministradorComponent {
     }
   }
 
+  getCurrentDate(): string {
+    const day = this.currentDate.getDate().toString().padStart(2, '0');
+    const month = (this.currentDate.getMonth() + 1).toString().padStart(2, '0'); // Meses empiezan en 0
+    const year = this.currentDate.getFullYear().toString().slice(-2); // Tomar últimos dos dígitos del año
+
+    return `${day}-${month}-${year}`;
+  }
+
+  enviarEmailcomentario(user: string, jefe: string) {
+
+
+    let params = {
+      correo: user,
+      asunto: 'Tarea Pendiente',
+      mensaje: 'Tienes un comentario en una tarea de '+jefe+', por favor revisa la app para mas detalles'
+    }
+     //  this.http.post('https://dem-back.vercel.app/',params).subscribe((data) => {
+    this.http.post('https://dem-back.vercel.app/',params).subscribe((data) => {
+      console.log(data);
+    });
+  
+  
+  }
+
 
   comentarTarea(id: Tarea['id']) {
-
+    let dat = this.getCurrentDate();
     let text;
+    const tarea = this.getTareas.find((tarea) => tarea.idd === id);
 
     let person = prompt("Ingresa el comentario:", text);
     if (person == null || person == "") {
       text = "User cancelled the prompt.";
     } else {
       person = person;
-      this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase() + " " + person).then(() => {
+      this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase()+" "+person+" "+dat).then(() => {
+
+        if(tarea.jefe === 'Cap Paz'){
+          this.userCorreo = 'gpaz@dnsffaa.gub.uy';
+    
+        }else
+        if(tarea.jefe === 'Tte. Clara'){
+          this.userCorreo = 'eclara@dnsffaa.gub.uy';
+        }else{
+          this.userCorreo = tarea.jefe+'@dnsffaa.gub.uy';
+        
+        }
+        this.enviarEmailcomentario(this.userCorreo, tarea.nombre);
+
+
+        
         this.verTareasPendientes();
-        this.verTareasCompletas();
+  
 
       }
       );

@@ -85,8 +85,22 @@ enviarEmail(user: string) {
     asunto: 'Tarea Pendiente',
     mensaje: 'Jefatura te asigno una tarea en la plataforma de tareas, por favor revisa la app para mas detalles'
   }
-  this.http.post('https://dem-back-dxaxrom6b-gonzas-projects-6adf3ca6.vercel.app/enviar',params).subscribe((data) => {
-    // this.http.post('http://localhost:3000/enviar',params).subscribe((data) => {
+   //  this.http.post('https://dem-back.vercel.app/',params).subscribe((data) => {
+  this.http.post('https://dem-back.vercel.app/',params).subscribe((data) => {
+    console.log(data);
+  });
+}
+
+enviarEmailcomentario(user: string, jefe: string) {
+
+
+  let params = {
+    correo: user,
+    asunto: 'Tarea Pendiente',
+    mensaje: 'Tienes un comentario en una tarea de '+jefe+', por favor revisa la app para mas detalles'
+  }
+   //  this.http.post('https://dem-back.vercel.app/',params).subscribe((data) => {
+  this.http.post('https://dem-back.vercel.app/',params).subscribe((data) => {
     console.log(data);
   });
 
@@ -406,6 +420,19 @@ enviarEmail(user: string) {
     } else {
       person = person;
       this.tareasService.agregarComentario(id, this.nombreUser.toUpperCase()+" "+person+" "+dat).then(() => {
+
+        if(tarea.jefe === 'Cap Paz'){
+          this.userCorreo = 'gpaz@dnsffaa.gub.uy';
+    
+        }else
+        if(tarea.jefe === 'Tte. Clara'){
+          this.userCorreo = 'eclara@dnsffaa.gub.uy';
+        }else{
+          this.userCorreo = tarea.jefe+'@dnsffaa.gub.uy';
+        
+        }
+        this.enviarEmailcomentario(this.userCorreo, tarea.nombre);
+        console.log(this.userCorreo);
         this.todasLasTareasAsignadas();
         this.tareasPendientes();
 
