@@ -226,7 +226,7 @@ enviarEmailcomentario(user: string, jefe: string) {
         this.userCorreo = 'gpaz@dnsffaa.gub.uy';
   
       }else
-      if(tareaFinal.jefe === 'Tte. Clara'){
+      if(tareaFinal.jefe === 'Tte Clara'){
         this.userCorreo = 'eclara@dnsffaa.gub.uy';
       }else{
         this.userCorreo = tareaFinal.jefe+'@dnsffaa.gub.uy';
@@ -425,7 +425,7 @@ enviarEmailcomentario(user: string, jefe: string) {
           this.userCorreo = 'gpaz@dnsffaa.gub.uy';
     
         }else
-        if(tarea.jefe === 'Tte. Clara'){
+        if(tarea.jefe === 'Tte Clara'){
           this.userCorreo = 'eclara@dnsffaa.gub.uy';
         }else{
           this.userCorreo = tarea.jefe+'@dnsffaa.gub.uy';

@@ -32,7 +32,7 @@ export class PassComponent {
     // ir a login
 
     // dirigirse al componente tareas 
-    this.router.navigate(['/tareas', this.UserService.getUserName()]);
+    this.router.navigate(['/login']);
 
 
     

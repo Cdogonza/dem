@@ -21,7 +21,7 @@ export class LoginComponent {
   form: FormGroup;
   error: string = 'Algo Salio mal';
   usuario: string = '';
-
+  nombreUser = '';
   constructor(
     private UserService: UserService
   ) { 
@@ -29,7 +29,7 @@ export class LoginComponent {
       email: new FormControl(),
       password: new FormControl()
     });
-
+    this.nombreUser = sessionStorage.getItem('nombre') || '';
   }
 
   onSubmit() {

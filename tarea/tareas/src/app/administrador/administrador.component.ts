@@ -169,7 +169,7 @@ export class AdministradorComponent {
           this.userCorreo = 'gpaz@dnsffaa.gub.uy';
     
         }else
-        if(tarea.jefe === 'Tte. Clara'){
+        if(tarea.jefe === 'Tte Clara'){
           this.userCorreo = 'eclara@dnsffaa.gub.uy';
         }else{
           this.userCorreo = tarea.jefe+'@dnsffaa.gub.uy';
