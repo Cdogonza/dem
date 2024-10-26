@@ -31,13 +31,49 @@
         <label class="form-check-label" for="flexSwitchCheckDefault">Solo Pendientes</label>  
       </div>
       <div *ngIf="!cartelesTask"><h2>No tienes tareas para mostrar!</h2></div>
-      <div id="cards" class="card mb-3"
-        [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"
-        *ngFor="let item of getTareasAsignadas">
+      <div class="container mt-5">
+        <table class="table table-hover table-bordered table-striped text-center" style="font-size: 1.1rem;">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" class="text-nowrap">Fecha</th>
+              <th scope="col" class="text-nowrap">Para</th>
+              <th scope="col" class="text-nowrap">Tarea</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Eliminar</th>
+              <th scope="col">Comentar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getTareasAsignadas" (click)="verComentarios(item.idd)">
+              <td class="text-nowrap">{{ item.fecha }}</td>
+              <td class="text-nowrap">{{ item.jefe }}</td>
+              <td class="text-start">{{ item.recordatorio }}</td>
+              <td>
+                <button mat-icon-button (click)="editarTarea(item.idd)" (click)="$event.stopPropagation()">
+                  <span class="material-icons md-15 orange500">edit</span>
+                </button>
+              </td>
+              <td>
+                <button mat-icon-button (click)="deleteMiasCompletas(item.idd)" (click)="$event.stopPropagation()">
+                  <span class="material-icons md-15 orange500">delete</span>
+                </button>
+              </td>
+              <td>
+                <button mat-icon-button (click)="comentarTarea(item.idd)" (click)="$event.stopPropagation()">
+                  <span class="material-icons md-15 orange500">add</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- <div id="cards" class="card mb-3"
+        [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"*ngFor="let item of getTareasAsignadas">
         <div class="card-body" style="background-color: #ffffffd7; border-radius: 10px;">
           <div class="card-header" style="background-color: #ffffffd7;">
 
-            <!-- <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end"> -->
+        
             <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
             <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
             <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
@@ -54,22 +90,13 @@
             <button mat-icon-button (click)="delete(item.idd)">
               <span class="material-icons md-15 orange500 ">delete</span>
             </button>
-            <!-- <button *ngIf="item.comentario && item.coment" mat-icon-button (click)="leido(item.idd)">
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                  notifications_off
-                </span></span>
-            </button>
-            <button  *ngIf="item.comentario && !item.coment && (item.estado == 'pendiente')" mat-icon-button (click)="leidoflaso(item.idd)">
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                  notifications_on
-                </span></span>
-            </button> -->
+
             <button *ngIf="(item.estado == 'pendiente')" mat-icon-button (click)="comentarTarea(item.idd)">
               <span class="material-icons md-15 orange500 ">add</span>
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- MIS TAREAS -->
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
@@ -80,7 +107,7 @@
         <div class="card-body" style="background-color: #ffffffd7; border-radius: 10px;">
           <div class="card-header" style="background-color: #ffffffd7;">
 
-            <!-- <img *ngIf="item.comentario && item.coment" src="assets/noti.png" class="rounded float-end"> -->
+            
             <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
             <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
             <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
@@ -97,22 +124,14 @@
             <button mat-icon-button (click)="deleteMiasCompletas(item.idd)">
               <span class="material-icons md-15 orange500 ">delete</span>
             </button>
-            <!-- <button *ngIf="item.comentario && item.coment" mat-icon-button (click)="leido(item.idd)">
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                  notifications_off
-                </span></span>
-            </button>
-            <button *ngIf="item.comentario && !item.coment" mat-icon-button (click)="leidoflaso(item.idd)">
-              <span class="material-icons md-15 orange500 "><span class="material-symbols-outlined">
-                  notifications_on
-                </span></span>
-            </button> -->
+
             <button mat-icon-button (click)="comentarTarea(item.idd)">
               <span class="material-icons md-15 orange500 ">add</span>
             </button>
           </div>
         </div>
       </div>
+      
     </div>
     <!-- MIS TAREAS COMPLETADAS -->
     <div  class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">

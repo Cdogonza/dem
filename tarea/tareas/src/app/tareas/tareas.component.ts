@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from '@angular/material/card';
 import { TareasService } from '../services/tareas.service';
-import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { NgFor, NgIf, NgStyle,NgClass } from '@angular/common';
 import Tarea from '../tarea';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
@@ -25,11 +25,12 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import { HttpClientModule,HttpClient  } from '@angular/common/http';
+import { VerComentariosModalComponent } from '../ver-comentarios-modal/ver-comentarios-modal.component';  // Importa el componente del modal
 
 @Component({
   selector: 'app-tareas',
   standalone: true,
-  imports: [HttpClientModule,AsyncPipe,MatDialogModule,NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
+  imports: [NgClass,HttpClientModule,AsyncPipe,MatDialogModule,NgStyle, NavtareasComponent, MatSelectModule, MatToolbarModule, MatIconModule, NgIf, 
       MatTableModule, NgFor, RouterModule, RouterOutlet, MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, MatCardModule],
 
   templateUrl: './tareas.component.html',
@@ -75,6 +76,23 @@ export class TareasComponent {
     this.nombreUser = sessionStorage.getItem('nombre') || '';
     this.name = sessionStorage.getItem('email') || '';
     this.admin = false;
+  }
+
+  verComentarios(idd: number): void {
+    // Encuentra la tarea según el ID
+    const tarea = this.getTareasPendientes.find(item => item.idd === idd);
+
+    // Abre el modal y pasa los comentarios
+    const dialogRef = this.dialog.open(VerComentariosModalComponent, {
+      width: '50%', // Ajusta el tamaño según tus necesidades
+      height: '50%', // Ajusta el tamaño según tus necesidades
+      data: { comentarios: tarea?.comentario || [] }
+    });
+
+    // Opcional: Puedes manejar lo que sucede al cerrar el modal
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El modal fue cerrado');
+    });
   }
 
 enviarEmail(user: string) {
@@ -246,7 +264,7 @@ enviarEmailcomentario(user: string, jefe: string) {
 
   ngOnInit(): void {
     this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
-    this.name = this.rroute.snapshot.paramMap.get('user') + '@dnsffaa.gub.uy' ?? '';
+    this.name = (this.rroute.snapshot.paramMap.get('user') ?? '') + '@dnsffaa.gub.uy';
     sessionStorage.setItem('nombre', this.nombreUser);
     sessionStorage.setItem('email', this.name);
     this.todasLasTareasAsignadas();

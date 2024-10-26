@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Comentarios</h2>
+<div mat-dialog-content>
+  <p *ngIf="data.comentarios.length === 0">No hay comentarios para esta tarea.</p>
+  <ul>
+    <li *ngFor="let comentario of data.comentarios">{{ comentario }}</li>
+  </ul>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cerrarModal()">Cerrar</button>
+</div>
+
