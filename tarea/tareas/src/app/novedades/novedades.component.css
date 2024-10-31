@@ -1,0 +1,36 @@
+body {
+    background-color: #f8f9fa; /* Color de fondo claro */
+}
+
+.novedades-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    /* min-height: calc(100vh - 350px);  */
+    margin-top: 10px;
+    
+}
+
+.formulario {
+    width: 100%;
+    max-width: 600px; /* Ancho máximo del formulario */
+    padding: 20px; /* Padding interno */
+    background-color: white; /* Fondo blanco para el formulario */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Espacio entre los campos del formulario */
+}
+
+.btn {
+    width: 100%; /* Botón ocupa todo el ancho del formulario */
+
+}
+
+h1{
+    text-align: center; /* Centra el texto */
+    margin-bottom:0px; /* Espacio inferior */
+    margin-top: 150px;
+}
