@@ -17,6 +17,7 @@ import { MatDialogActions } from '@angular/material/dialog';
 import { MatDialogClose } from '@angular/material/dialog';
 import { NavComponent } from '../nav/nav.component';
 import { HttpClientModule,HttpClient } from '@angular/common/http';
+import { VerComentariosModalComponent } from '../ver-comentarios-modal/ver-comentarios-modal.component';  // Importa el componente del modal
 @Component({
   selector: 'app-administrador',
   standalone: true,
@@ -151,7 +152,23 @@ export class AdministradorComponent {
   
   
   }
+  verComentarios(idd: number): void {
+    // Encuentra la tarea según el ID
+    const tarea = this.getTareas.find(item => item.idd === idd);
+    console.log(this.getTareas.find(item => item.idd === idd));
+    // Abre el modal y pasa los comentarios
+    const dialogRef = this.dialog.open(VerComentariosModalComponent, {
+      width: '50%', // Ajusta el tamaño según tus necesidades
+      height: '50%', // Ajusta el tamaño según tus necesidades
+      data: { comentarios: tarea?.comentario || [] }
 
+    });
+
+    // Opcional: Puedes manejar lo que sucede al cerrar el modal
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El modal fue cerrado');
+    });
+  }
 
   comentarTarea(id: Tarea['id']) {
     let dat = this.getCurrentDate();

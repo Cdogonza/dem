@@ -73,7 +73,7 @@ body {
   #estado{
     padding: 5px 10px;
     text-align: start;
-    border: 1px solid #999;
+    border: 1px solid #747474;
     background-color: #4e6bff;
     color: #fff;
     width: 10%;
@@ -97,7 +97,11 @@ body {
     margin-right: 5px;
     transition: background-color 0.3s ease;
   }
-  
+/* Cambia el cursor a puntero al pasar el mouse sobre las filas de la tabla */
+table tbody tr:hover {
+  cursor: pointer;
+}
+
 
   #cards{
     

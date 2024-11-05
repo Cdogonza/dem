@@ -80,13 +80,14 @@ export class TareasComponent {
 
   verComentarios(idd: number): void {
     // Encuentra la tarea según el ID
-    const tarea = this.getTareasPendientes.find(item => item.idd === idd);
-
+    const tarea = this.getTareasAsignadas.find(item => item.idd === idd);
+    console.log(this.getTareasAsignadas.find(item => item.idd === idd));
     // Abre el modal y pasa los comentarios
     const dialogRef = this.dialog.open(VerComentariosModalComponent, {
       width: '50%', // Ajusta el tamaño según tus necesidades
       height: '50%', // Ajusta el tamaño según tus necesidades
       data: { comentarios: tarea?.comentario || [] }
+
     });
 
     // Opcional: Puedes manejar lo que sucede al cerrar el modal

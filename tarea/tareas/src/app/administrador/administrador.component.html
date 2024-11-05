@@ -24,32 +24,45 @@
     <div class="tab-pane fade show active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
       tabindex="0">
       <div *ngIf="!cartelesTask">
-        <h2>No tienes tareas para mostrar!</h2>
+        <h2>No tienes tareas para mostrar!</h2>c
       </div>
-      <div id="cards" class="card mb-3"
-        [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"
-        *ngFor="let item of getTareas">
-        <div class="card-body" style="background-color: #ffffffd7; border-radius: 10px;">
-          <div class="card-header" style="background-color: #ffffffd7;">
-            <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
-            <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
-            <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
-          </div>
-          <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
-          <div class="card-footer" style="background-color: #ffffffd7;">
-
-            <p class="card-text" style="background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO
-                DE: </b>{{cmd}}</p>
-            <button mat-icon-button (click)="resolverTarea(item.idd)">
-              <span class="material-icons md-15 orange500 ">done</span>
-            </button>
-            <button mat-icon-button (click)="deleteMiasCompletas(item.idd)">
-              <span class="material-icons md-15 orange500 ">delete</span>
-            </button>
-            <button mat-icon-button (click)="comentarTarea(item.idd)">
-              <span class="material-icons md-15 orange500 ">add</span>
-            </button>
-          </div>
+      <div class="container mt-5">
+        <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+        <table class="table table-hover table-bordered table-striped text-center align-middle" style="font-size: 1.1rem;">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col" class="text-nowrap">Fecha</th>
+              <th scope="col" class="text-nowrap">Para</th>
+              <th scope="col" class="text-nowrap">Tarea</th>
+              <th scope="col">Eliminar</th>
+              <th scope="col">Comentar</th>
+              <th scope="col">Completar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getTareas" (click)="verComentarios(item.idd)" style="cursor: pointer;" class="table-light">
+              <td class="text-nowrap">{{ item.fecha }}</td>
+              <td class="text-nowrap">{{ item.jefe }}</td>
+              <td class="text-start">{{ item.recordatorio }}</td>
+      
+              <td>
+                <button mat-icon-button (click)="deleteMiasCompletas(item.idd); $event.stopPropagation()" aria-label="Eliminar tarea">
+                  <span class="material-icons md-15 text-danger">delete</span>
+                </button>
+              </td>
+              <td>
+                <button mat-icon-button (click)="comentarTarea(item.idd); $event.stopPropagation()" aria-label="Comentar tarea">
+                  <span class="material-icons md-15 text-primary">add</span>
+                </button>
+              </td>
+              <td>
+                <button mat-icon-button (click)="resolverTarea(item.idd); $event.stopPropagation()" aria-label="Resolver tarea">
+                  <span class="material-icons md-15 text-primary">check</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         </div>
       </div>
     </div>
@@ -58,26 +71,39 @@
         <div *ngIf="!cartelesTaskComplete">
         <h2>No tienes tareas para mostrar!</h2>
         </div>
-        <div id="cards" class="card mb-3"
-        [ngStyle]="{'background-color':item.estado=='pendiente'?'#f762714f':'#81ff4256'}" style="width: 90%;"
-        *ngFor="let item of getTareasCompletas">
-        <div class="card-body" style="background-color: #ffffffd7; border-radius: 10px;">
-          <div class="card-header" style="background-color: #ffffffd7;">
-
-            <h3 class="card-title mb-0"><b>{{item.fecha}}</b></h3>
-            <h3 class="card-title mb-0"><b>Para:</b> {{item.jefe}}</h3>
-            <h4 class="card-subtitle mb-3"><b>De:</b> {{item.nombre}}</h4>
-          </div>
-          <p class="card-text"><b>Tarea:</b> {{item.recordatorio}}</p>
-          <div class="card-footer" style="background-color: #ffffffd7;">
-
-            <p class="card-text" style="background-color: #ffffffd7;" *ngFor="let cmd of item.comentario"><b>COMENTARIO
-                DE: </b>{{cmd}}</p>
-
-            <button mat-icon-button (click)="deleteMiasCompletas(item.idd)">
-              <span class="material-icons md-15 orange500 ">delete</span>
-            </button>
-          </div>
+        <div class="container mt-5">
+          <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+          <table class="table table-hover table-bordered table-striped text-center align-middle" style="font-size: 1.1rem;">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col" class="text-nowrap">Fecha</th>
+                <th scope="col" class="text-nowrap">Para</th>
+                <th scope="col" class="text-nowrap">Tarea</th>
+                <th scope="col">Eliminar</th>
+                <th scope="col">Comentar</th>
+        
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of getTareasCompletas" (click)="verComentarios(item.idd)" style="cursor: pointer;" class="table-success">
+                <td class="text-nowrap">{{ item.fecha }}</td>
+                <td class="text-nowrap">{{ item.jefe }}</td>
+                <td class="text-start">{{ item.recordatorio }}</td>
+        
+                <td>
+                  <button mat-icon-button (click)="deleteMiasCompletas(item.idd); $event.stopPropagation()" aria-label="Eliminar tarea">
+                    <span class="material-icons md-15 text-danger">delete</span>
+                  </button>
+                </td>
+                <td>
+                  <button mat-icon-button (click)="comentarTarea(item.idd); $event.stopPropagation()" aria-label="Comentar tarea">
+                    <span class="material-icons md-15 text-primary">add</span>
+                  </button>
+                </td>
+               
+              </tr>
+            </tbody>
+          </table>
         </div>
         </div>
     </div>
