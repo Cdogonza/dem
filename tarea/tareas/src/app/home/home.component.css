@@ -1,0 +1,18 @@
+/* Asegura que el contenido no quede oculto bajo la navbar */
+body {
+    padding-top: 70px; /* Ajusta este valor según la altura de tu navbar */
+  }
+  
+  /* Si estás utilizando una navbar fija (fixed-top), asegúrate de que el contenido tenga suficiente margen arriba */
+  .contenedor {
+    margin-top: 80px; /* Ajusta el margen superior para que la tabla se separe adecuadamente de la navbar */
+  }
+  
+  /* Si la navbar tiene un alto dinámico o quieres ajustarlo con mayor precisión, puedes usar esta regla */
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030; /* Asegura que la navbar esté sobre el contenido */
+  }
+  

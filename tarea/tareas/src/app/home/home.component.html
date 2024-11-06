@@ -1,0 +1,36 @@
+<app-navtareas></app-navtareas>
+<!-- Este código puede ir dentro del archivo HTML de tu componente Angular -->
+<div class="contenedor">
+<!-- Este código puede ir dentro del archivo HTML de tu componente Angular -->
+<div class="container mt-4">
+    <!-- Tabla -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <!-- Celda combinada para el botón "Ingresar Novedad" -->
+          <th colspan="3" class="text-center">
+            <button class="btn btn-primary" [routerLink]="['/novedades', nombreUser]"  routerLinkActive="active">
+              <i class="material-icons">add</i> INGRESAR NOVEDAD
+            </button>
+          </th>
+        </tr>
+        <tr>
+          <th class="text-center" style="width: 18%;">FECHA</th>
+          <th class="text-center" style="width: 18%;">NOMBRE</th>
+          <th class="text-center" style="width: 64%;">NOVEDAD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Primera fila de ejemplo -->
+        <tr>
+          <td>2024-11-06</td>
+          <td>Juan Pérez</td>
+          <td>Problema con acceso</td>
+        </tr>
+        <!-- Más filas de datos se agregarían aquí -->
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+
