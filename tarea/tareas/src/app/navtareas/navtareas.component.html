@@ -16,6 +16,9 @@
           <h3 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Sector: {{rol}}</h3>
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
+              <a class="nav-link active" aria-current="page" [routerLink]="['/novedades', nombreUser]"  routerLinkActive="active">Novedades</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link active" aria-current="page" [routerLink]="['/administrador', nombreUser]"  routerLinkActive="active">Administrador</a>
             </li>
             <li class="nav-item">

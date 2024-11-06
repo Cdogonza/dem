@@ -5,6 +5,7 @@ import { TareasComponent } from './tareas/tareas.component';
 import { AdministradorComponent } from './administrador/administrador.component';
 import { PassComponent } from './pass/pass.component';
 import { authGuard } from './auth.guard';
+import { NovedadesComponent } from './novedades/novedades.component';
 
 export const routes: Routes = [
    
@@ -14,6 +15,7 @@ export const routes: Routes = [
     {path: 'administrador/:user', component: AdministradorComponent, canActivate:[authGuard]},
     {path: 'login', component: LoginComponent},
     {path: 'pass/:user', component: PassComponent},
+    {path: 'novedades/:user', component: NovedadesComponent},
     {path: '**', redirectTo: 'login', pathMatch: 'full'},
 ];
 

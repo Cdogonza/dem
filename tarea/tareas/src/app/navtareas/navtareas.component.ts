@@ -4,10 +4,12 @@ import { TareasComponent } from '../tareas/tareas.component';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-navtareas',
   standalone: true,
   imports: [RouterModule,
+    
     RouterOutlet],
   templateUrl: './navtareas.component.html',
   styleUrl: './navtareas.component.css'
@@ -19,7 +21,7 @@ export class NavtareasComponent {
   rol = '';
   name= '';
 
-  constructor(private rroute: ActivatedRoute,private tareas: TareasComponent,private userService: UserService, private route: Router) {
+  constructor(private rroute: ActivatedRoute,private userService: UserService, private route: Router) {
     this.nombreUser = sessionStorage.getItem('nombre') || '';
 
   }
