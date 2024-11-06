@@ -6,13 +6,16 @@ import { NgIf,NgFor } from '@angular/common';
   selector: 'app-ver-comentarios-modal',
   standalone: true,
   imports: [NgIf,NgFor],
-  templateUrl: './ver-comentarios-modal.component.html',
+  templateUrl: 'ver-comentarios-modal.component.html',
   styleUrl: './ver-comentarios-modal.component.css'
 })
 export class VerComentariosModalComponent {
-  constructor(public dialogRef: MatDialogRef<VerComentariosModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { comentarios: string[] }  ) {}
+  comentarios: any[];
 
+
+    constructor(public dialogRef: MatDialogRef<VerComentariosModalComponent>,@Inject(MAT_DIALOG_DATA) public data: { comentarios: any[] }) {
+      this.comentarios = data.comentarios;
+    }
   // Método para cerrar el modal
   cerrarModal(): void {
     this.dialogRef.close();

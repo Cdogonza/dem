@@ -1,5 +1,4 @@
 body {
-
     margin-top: 20px;
     padding: 0;
     height: 500vh;
@@ -7,9 +6,14 @@ body {
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
     background: linear-gradient(to bottom right, #4e6bff, #00b0ff); /* Fondo gradiente azul */
+    overflow: hidden; 
   }
+
   h3{
     margin-left: 5px;
+  }
+  .container mt-5{
+    overflow-y:auto;
   }
   #eliminar{
     background-color: #ff4d4d; /* Fondo rojo */
