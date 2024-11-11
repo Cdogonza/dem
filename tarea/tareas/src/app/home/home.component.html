@@ -1,0 +1,60 @@
+<app-navtareas></app-navtareas>
+<!-- Este código puede ir dentro del archivo HTML de tu componente Angular -->
+<div class="contenedor">
+<!-- Este código puede ir dentro del archivo HTML de tu componente Angular -->
+<div id="table" class="container mt-4">
+   <h1>NOVEDADES</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr class="botones">
+          <!-- Celda combinada para el botón "Ingresar Novedad" -->
+          <th colspan="1" class="text-center">
+            <button class="btn btn-primary" [routerLink]="['/novedades', nombreUser]"  routerLinkActive="active">
+              <i class="material-icons">add</i> INGRESAR NOVEDAD
+            </button>
+          </th>
+          <th colspan="0.5">
+            <button *ngIf="hoyYtodas" class="btn btn-primary" (click)="loadAllData()">
+              <i class="material-icons" style="margin-right: 8px;">visibility</i> VER TODAS
+            </button>
+            <button *ngIf="!hoyYtodas" class="btn btn-primary" (click)="novedadesHoy()">
+              <i class="material-icons" style="margin-right: 8px;">visibility</i> VER HOY
+            </button>
+          </th>
+      
+            <th colspan="2">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="btn btn-primary" (click)="printTable()">
+                  <i class="material-icons" style="margin-right: 8px;">print</i> Print Table
+                </button>
+                <!-- <input type="text" placeholder="Buscar..." (input)="filtrarTabla($event)" /> -->
+                <div style="position: relative; display: inline-block;">
+                  <i class="material-icons" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888;">search</i>
+                  <input type="text" placeholder="Buscar..." (input)="filtrarTabla($event)" 
+                         style="padding: 5px 5px 5px 28px; border: 1px solid #ccc; border-radius: 20px; color: #555; background-color: #f2f2f2; outline: none; width: 280px;" />
+                </div>
+              </div>
+            </th>
+        </tr>
+        
+        <tr>
+          <th class="text-center" style="width: 18%;">FECHA</th>
+          <th class="text-center" style="width: 18%;">NOMBRE</th>
+          <th class="text-center" style="width: 64%;">NOVEDAD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Primera fila de ejemplo -->
+        <tr *ngFor=" let item of dataFiltrada ">
+          <td class="text-center">{{ item.fecha }}</td>
+          <td class="text-center">{{ item.nombre }}</td>
+          <td class="text-start">{{ item.novedad }}</td>
+
+        </tr> 
+        <!-- Más filas de datos se agregarían aquí -->
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+

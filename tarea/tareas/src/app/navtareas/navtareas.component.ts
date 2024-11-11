@@ -63,7 +63,7 @@ export class NavtareasComponent {
     // this.verTareasPendientes();
     this.cargarNombreUsuario();
     this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
-    this.name = this.rroute.snapshot.paramMap.get('user') + '@dnsffaa.gub.uy' ?? '';
+    this.name = (this.rroute.snapshot.paramMap.get('user') ?? '') + '@dnsffaa.gub.uy';
     sessionStorage.setItem('nombre', this.nombreUser);
     sessionStorage.setItem('email', this.name);
   }

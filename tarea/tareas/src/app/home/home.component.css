@@ -1,0 +1,33 @@
+/* Asegura que el contenido no quede oculto bajo la navbar */
+body {
+    padding-top: 70px; /* Ajusta este valor según la altura de tu navbar */
+  }
+  
+  /* Si estás utilizando una navbar fija (fixed-top), asegúrate de que el contenido tenga suficiente margen arriba */
+  .contenedor {
+    margin-top: 60px; /* Ajusta el margen superior para que la tabla se separe adecuadamente de la navbar */
+  }
+  
+  /* Si la navbar tiene un alto dinámico o quieres ajustarlo con mayor precisión, puedes usar esta regla */
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030; /* Asegura que la navbar esté sobre el contenido */
+  }
+.btn{
+  display: flex; /* Usar flexbox para centrar el contenido */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  height: 30px; /* Altura del botón */
+  width: 170px; /* Ancho del botón */
+  border: none; /* Sin borde */
+  background-color: #007BFF; /* Color de fondo */
+  color: white; /* Color del texto */
+  font-size: 12px; /* Tamaño de fuente */
+  cursor: pointer; /* Cambiar el cursor al pasar el ratón */
+}
+H1{
+  text-align: center;
+}
+  

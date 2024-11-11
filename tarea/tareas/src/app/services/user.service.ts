@@ -42,6 +42,9 @@ export class UserService {
   goToTareas(user:string){
     this.router.navigate(['/tareas', user]);
   }
+  goToNovedes(user:string){
+    this.router.navigate(['/home', user]);
+  }
   logout(){
 
     return signOut(this.auth);
