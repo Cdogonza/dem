@@ -74,7 +74,6 @@ export class HomeComponent implements OnInit {
     const year: string = String(today.getFullYear()); // Obtiene el año
     const hoy = day + '/' + month + '/' + year;
     this.fechaActual = hoy;
-    console.log(this.fechaActual);
   
   }
   printTable() {
