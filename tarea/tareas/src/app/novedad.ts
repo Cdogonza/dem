@@ -1,5 +1,5 @@
 export default interface Novedad {
-    fecha: string;
+    fecha: String;
     nombre: string;
     novedad: string;
    

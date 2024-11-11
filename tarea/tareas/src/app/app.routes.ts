@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
    
-
+    { path: '', redirectTo: '/home/:user', pathMatch: 'full' },
     {path: 'tareas/:user', component: TareasComponent}, 
     {path: 'register/:user', component: RegisterComponent, canActivate:[authGuard]},
     {path: 'administrador/:user', component: AdministradorComponent, canActivate:[authGuard]},

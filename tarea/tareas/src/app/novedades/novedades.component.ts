@@ -18,16 +18,20 @@ import { Loading } from 'notiflix';
 })
 
 export class NovedadesComponent implements OnInit {
-  fechaActual: string;
+  fechaActual: String = '';
   usuario: string = '';
   tituloNovedades: string = '';
   formulario: FormGroup;
   nombreUser = '';
   constructor(private route: Router, private novedadesService: NovedadesService) {
     // Obtener la fecha actual en formato 'dd/mm/yyyy'
+    const today = new Date(); // Obtiene la fecha actual
+    const day: string = String(today.getDate()).padStart(2, '0'); // Obtiene el día y lo formatea con dos dígitos
+    const month: string = String(today.getMonth() + 1).padStart(2, '0'); // Obtiene el mes (0-11, así que sumamos 1) y lo formatea
+    const year: string = String(today.getFullYear()); // Obtiene el año
 
-    const today = new Date();
-    this.fechaActual = today.toLocaleDateString();
+    const hoy=  day+ '/' + month + '/' + year;
+    this.fechaActual = hoy;
     this.formulario = new FormGroup({
       fechaActual: new FormControl(),
       tituloNovedades: new FormControl(),
@@ -62,6 +66,6 @@ export class NovedadesComponent implements OnInit {
     // Aquí podrías hacer una llamada a un servicio para guardar los datos
   }
   adminGo() {
-    this.route.navigate(['/novedades', this.nombreUser]);
+    this.route.navigate(['/home', this.nombreUser]);
   }
 }
