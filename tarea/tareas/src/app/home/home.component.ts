@@ -77,22 +77,66 @@ export class HomeComponent implements OnInit {
   
   }
   printTable() {
-    const printContents = document.getElementById('table')?.innerHTML;
-    const originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents || '';
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload(); // Reload to restore the original content
+    const printContents = document.getElementById('table')?.outerHTML;
+    
+    if (!printContents) {
+      console.error('No se encontró la tabla para imprimir.');
+      return;
+    }
+  
+    // Crear una nueva ventana
+    const printWindow = window.open('', '_blank', 'width=800,height=600');
+    printWindow?.document.write(`
+      <html>
+        <head>
+          <title>Imprimir Tabla</title>
+          <style>
+            /* Estilos opcionales para la impresión */
+            body {
+              font-family: Arial, sans-serif;
+              margin: 20px;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            th, td {
+              border: 1px solid #000;
+              padding: 8px;
+              text-align: left;
+            }
+          </style>
+        </head>
+        <body onload="window.print(); window.close();">
+          ${printContents}
+        </body>
+      </html>
+    `);
+    printWindow?.document.close();
   }
   filtrarTabla(event: Event) {
     const textoBusqueda = (event.target as HTMLInputElement).value.toLowerCase();
 
-    this.dataFiltrada = this.data.filter(item =>
-        item.novedad.toLowerCase().includes(textoBusqueda) ||
-        item.nombre.toLowerCase().includes(textoBusqueda)
-    );
+    this.cargaTodas()
+    this.dataFiltrada = this.dataFiltrada.filter(item =>
+      item.novedad.toLowerCase().includes(textoBusqueda) ||
+      item.nombre.toLowerCase().includes(textoBusqueda)
+  );
 }
+
+async cargaTodas() {
+ 
+  this.novedadesService.getData().subscribe(data => {
+    this.dataFiltrada = data;
+   // this.cdr.detectChanges(); // Forzar la detección de cambios
+    
+  }, error => {
+    console.error('Error al cargar datos:', error);
+  });
+}
+
+
+
 }
 
 
