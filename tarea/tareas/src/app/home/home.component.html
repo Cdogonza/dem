@@ -2,9 +2,10 @@
 <!-- Este código puede ir dentro del archivo HTML de tu componente Angular -->
 <div class="contenedor">
 <!-- Este código puede ir dentro del archivo HTML de tu componente Angular -->
-<div id="table" class="container mt-4">
+<div  class="container mt-4"style="max-height: 80vh;overflow-y: auto;">
    <h1>NOVEDADES</h1>
-    <table class="table table-bordered">
+   <div class="table-responsive" style="overflow-y: auto;">
+    <table id="table" class="table table-bordered" >
       <thead>
         <tr class="botones">
           <!-- Celda combinada para el botón "Ingresar Novedad" -->
@@ -54,6 +55,7 @@
         <!-- Más filas de datos se agregarían aquí -->
       </tbody>
     </table>
+  </div>
   </div>
   
 </div>
