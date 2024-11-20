@@ -16,8 +16,8 @@ export const routes: Routes = [
     {path: 'administrador/:user', component: AdministradorComponent, canActivate:[authGuard]},
     {path: 'login', component: LoginComponent},
     {path: 'pass/:user', component: PassComponent},
-    {path: 'novedades/:user', component: NovedadesComponent},
-    {path: 'home/:user', component: HomeComponent},
+    {path: 'novedades/:user', component: NovedadesComponent, canActivate:[authGuard]},
+    {path: 'home/:user', component: HomeComponent, canActivate:[authGuard]},
     {path: '**', redirectTo: 'login', pathMatch: 'full'},
 ];
 

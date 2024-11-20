@@ -1,26 +1,39 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { environment } from '../../environments/envoironment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TelegramService {
-  private token: string = '7295498733:AAFFGAPSPOCGRNxempAebJ_oZN57QDKhCGs';
-  private chatId: string = 'DEMNovedadesbot';
+  private token: string = environment.telegramToken;
+  private chatIds: string[] = environment.telegramChatIds;
+  
 
-  constructor() { }
+  constructor() {}
+
+  getTelegramToken(): string {
+    return this.token;
+  }
+ 
 
   async sendMessage(message: string): Promise<void> {
     const url = `https://api.telegram.org/bot${this.token}/sendMessage`;
 
+    for (const chatId of this.chatIds) {
     try {
-      await axios.post(url, {
-        chat_id: this.chatId,
+      const response = await axios.post(url, {
+        chat_id: chatId, 
         text: message,
       });
-      console.log('Mensaje enviado a Telegram');
+      console.log('Mensaje enviado correctamente:', response.data);
     } catch (error) {
-      console.error('Error al enviar el mensaje:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Error al enviar el mensaje:', error.response?.data || error.message);
+      } else {
+        console.error('Error al enviar el mensaje:', error);
+      }
     }
   }
-}
+}	
+}	
