@@ -22,9 +22,9 @@ export class NovedadesService {
     return collectionData(queryRef, { idField: 'id' }) as Observable<Novedad[]>;
   }
 
-  getDataByDate(date: string) {
+  getDataByDate(date: string, date2: string) {
     const ref = collection(this.firestore, 'novedades');
-    const queryRef = query(ref, where('fecha', '==', date));
+    const queryRef = query(ref, where('fecha', 'in', [date, date2]));
     return collectionData(queryRef, { idField: 'id' })as Observable<Novedad[]>;
   }
   getById(id: string): Observable<any> {

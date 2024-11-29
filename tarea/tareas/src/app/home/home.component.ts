@@ -30,6 +30,7 @@ import { ActivatedRoute } from '@angular/router';
 export class HomeComponent implements OnInit {
   nombreUser = '';
   fechaActual: string ='' // Definición de la propiedad
+  fechaAyer: string ='' // Definición de la propiedad
   data: Novedad[] = [];
   dataFiltrada: Novedad[] = [];
   selectedDate: string | undefined;
@@ -41,6 +42,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.nombreUser = this.rroute.snapshot.paramMap.get('user') ?? '';
     this.fehcaHoy();
+    this.fehcaAyer();
     this.novedadesHoy();
     
   }
@@ -58,8 +60,9 @@ export class HomeComponent implements OnInit {
 
   novedadesHoy() {
     this.hoyYtodas = true;
-    this.novedadesService.getDataByDate(this.fechaActual).subscribe(data => {
+    this.novedadesService.getDataByDate(this.fechaActual,this.fechaAyer).subscribe(data => {
       this.data = data;
+      console.log(this.fechaActual,this.fechaAyer);
       this.dataFiltrada = [...this.data];
       this.cdr.detectChanges(); // Forzar la detección de cambios
       
@@ -74,6 +77,16 @@ export class HomeComponent implements OnInit {
     const year: string = String(today.getFullYear()); // Obtiene el año
     const hoy = day + '/' + month + '/' + year;
     this.fechaActual = hoy;
+  console.log(this.fechaActual+'hoy');
+  }
+  fehcaAyer(){
+    const today = new Date(); // Obtiene la fecha actual
+    const day: string = String(today.getDate() - 1).padStart(2, '0'); // Obtiene el día y lo formatea con dos dígitos
+    const month: string = String(today.getMonth() + 1).padStart(2, '0'); // Obtiene el mes (0-11, así que sumamos 1) y lo formatea
+    const year: string = String(today.getFullYear()); // Obtiene el año
+    const hoy = day + '/' + month + '/' + year;
+    this.fechaAyer = hoy;
+    console.log(this.fechaAyer);
   
   }
   printTable() {
